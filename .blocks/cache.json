@@ -1,0 +1,219 @@
+{
+  "version": "1.0",
+  "createdAt": "2026-01-03T10:10:49.852Z",
+  "updatedAt": "2026-01-03T11:05:59.466Z",
+  "configFingerprint": {
+    "fullHash": "d3d0027e7ecd43063f465a25ff758bd5a2bf57bbf2921f063da0e6cf826c362e",
+    "philosophyHash": "f4de8d76c402d1c4cc7c179bf3619a76fce1f96421a159e5fa8bb64ed6bde60a",
+    "domainHash": "4fed2b4c8fe85954ae3cfe2c1b781af70d0be974e5da2a7a31b797426ef38048",
+    "aiConfigHash": "59ee04f04d6ac6c9e99647b6bc0466af294618e9b5483d9d5a6bb926e9337398",
+    "validatorsHash": "ea00008af8d02fc889192dc4db3bb6d1e2e174559408b416c9795d7ea66077be",
+    "globalDomainRulesHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "blockConfigs": {
+      "confident_stance": {
+        "definitionHash": "c8b5d5134125ccbdca01825188de932518cc849379deb9629f43b491abddc12e",
+        "domainRulesHash": null,
+        "inputsOutputsHash": "23fde40e279e7717d1c41413c7024633a49e2d271817f2ecbd6bd9ad7e624cb0"
+      },
+      "nervous_fidget": {
+        "definitionHash": "40ac69ef1b75a1c52f09ecb64e2b6e18e83c76aacf438c7095e69802678ad748",
+        "domainRulesHash": null,
+        "inputsOutputsHash": "88bb925284b581fff12a58d2ab43f8e178abb5385cdd6f23ffb5c6297ea7584a"
+      },
+      "smoking_cigarette": {
+        "definitionHash": "d467664b9f7cd3c8ae109163e64b12ee8f600a91d54a9b3456dec87f12404c67",
+        "domainRulesHash": null,
+        "inputsOutputsHash": "ea82cb934ca2e1266ae902934f95530bb04c23616a497d3df47475b1fcd34e1a"
+      },
+      "seductive_walk": {
+        "definitionHash": "f781afcdf338e98d99f707b9e1a8cd940ecd861ddd8ebc702823560ee2e35a7f",
+        "domainRulesHash": null,
+        "inputsOutputsHash": "b8aaa006ffe27793b5b780e33ce610056e259d29f1fcef8bd3610c0f027c7a84"
+      },
+      "contemplative_lean": {
+        "definitionHash": "fd5591a3aa79ec5c81bd5d71fa9de7f017255abde2a78b942f96ff59cefc18ad",
+        "domainRulesHash": null,
+        "inputsOutputsHash": "7b20d3c419ea9409f78bb1845c3b2daf37136bc7a1289cde561acf894b474ae8"
+      }
+    }
+  },
+  "blocks": {
+    "confident_stance": {
+      "blockName": "confident_stance",
+      "blockPath": "/Users/ajaxdavis/repos/lisa/posers/packages/motion-dsl/src/motions/confident-stance.ts",
+      "files": [
+        {
+          "path": "confident-stance.ts",
+          "hash": "aa526607432b37fd149b831efa99e5865fbf38deaa5304b8bc5cb3169279fe80",
+          "size": 15790,
+          "mtime": 1767437664956.117
+        }
+      ],
+      "contentHash": "6194b7715bdc12e70706d8c9c6f5432b1407f38564089494ef2471f6b71acf66",
+      "configHash": "c8b5d5134125ccbdca01825188de932518cc849379deb9629f43b491abddc12e",
+      "lastValidated": "2026-01-03T11:04:40.203Z",
+      "lastRunId": "2026-01-03T11-04-33-712Z",
+      "validatorResults": {
+        "schema.io": {
+          "passed": true,
+          "hash": "6194b7715bdc12e70706d8c9c6f5432b1407f38564089494ef2471f6b71acf66",
+          "issues": []
+        },
+        "domain.validation": {
+          "passed": true,
+          "hash": "6194b7715bdc12e70706d8c9c6f5432b1407f38564089494ef2471f6b71acf66",
+          "issues": [
+            {
+              "type": "warning",
+              "code": "DOMAIN_SEMANTIC_ISSUE",
+              "message": "Missing handling for optional bones in certain parts of the code, which could lead to errors if those bones are not present in the rig."
+            },
+            {
+              "type": "warning",
+              "code": "DOMAIN_SEMANTIC_ISSUE",
+              "message": "The animation logic for certain joints does not gracefully handle scenarios where associated bones are not available (i.e., finger and eye movements). Should incorporate checks similar to those in other sections of the code."
+            },
+            {
+              "type": "warning",
+              "code": "DOMAIN_SEMANTIC_ISSUE",
+              "message": "The overall performance constraint (updates must complete in under 2ms) is not validated or tested in the provided code, raising concerns on whether this requirement is met during execution."
+            }
+          ]
+        }
+      }
+    },
+    "nervous_fidget": {
+      "blockName": "nervous_fidget",
+      "blockPath": "/Users/ajaxdavis/repos/lisa/posers/packages/motion-dsl/src/motions/nervous-fidget.ts",
+      "files": [
+        {
+          "path": "nervous-fidget.ts",
+          "hash": "8644f99258969353378dae2e76da0a93d19ce6938b0382886a0b407b181b6af1",
+          "size": 19357,
+          "mtime": 1767437988372.9658
+        }
+      ],
+      "contentHash": "794affeb1b2033e0d4374ecd20fa42e0a12b501737bb5cf8626d5bdcb444d9f9",
+      "configHash": "40ac69ef1b75a1c52f09ecb64e2b6e18e83c76aacf438c7095e69802678ad748",
+      "lastValidated": "2026-01-03T11:05:44.923Z",
+      "lastRunId": "2026-01-03T11-04-33-712Z",
+      "validatorResults": {
+        "schema.io": {
+          "passed": true,
+          "hash": "794affeb1b2033e0d4374ecd20fa42e0a12b501737bb5cf8626d5bdcb444d9f9",
+          "issues": []
+        },
+        "domain.validation": {
+          "passed": true,
+          "hash": "794affeb1b2033e0d4374ecd20fa42e0a12b501737bb5cf8626d5bdcb444d9f9",
+          "issues": []
+        }
+      }
+    },
+    "smoking_cigarette": {
+      "blockName": "smoking_cigarette",
+      "blockPath": "/Users/ajaxdavis/repos/lisa/posers/packages/motion-dsl/src/motions/smoking-cigarette.ts",
+      "files": [
+        {
+          "path": "smoking-cigarette.ts",
+          "hash": "6b1f376688120f6c65c3d9a4a7f439e4366dd32f46f7d25364d0c40f79145371",
+          "size": 21843,
+          "mtime": 1767438058568.7678
+        }
+      ],
+      "contentHash": "63ecd3cecfae3a457981e2da3ec98e31fde7d022f64649ed4f45fe2fd902c0d2",
+      "configHash": "d467664b9f7cd3c8ae109163e64b12ee8f600a91d54a9b3456dec87f12404c67",
+      "lastValidated": "2026-01-03T11:05:53.871Z",
+      "lastRunId": "2026-01-03T11-04-33-712Z",
+      "validatorResults": {
+        "schema.io": {
+          "passed": true,
+          "hash": "63ecd3cecfae3a457981e2da3ec98e31fde7d022f64649ed4f45fe2fd902c0d2",
+          "issues": []
+        },
+        "domain.validation": {
+          "passed": true,
+          "hash": "63ecd3cecfae3a457981e2da3ec98e31fde7d022f64649ed4f45fe2fd902c0d2",
+          "issues": [
+            {
+              "type": "warning",
+              "code": "DOMAIN_SEMANTIC_ISSUE",
+              "message": "The motion does not explicitly include checks for the presence of necessary bones before applying transformations, risking errors if required bones are absent, even though there's a note regarding graceful handling in comments."
+            },
+            {
+              "type": "warning",
+              "code": "DOMAIN_SEMANTIC_ISSUE",
+              "message": "The module contains hardcoded values for motion intensity and other parameters in the state machine, which could lead to non-deterministic behavior if not appropriately scaled with respect to the input parameters provided."
+            },
+            {
+              "type": "warning",
+              "code": "DOMAIN_SEMANTIC_ISSUE",
+              "message": "Documentation mentions each animation phase's specific requirements (like applying secondary motion on fingers), but the actual implementation does not demonstrate any conditional checks or implementations for these effects based on the parameters provided, which could lead to potentially incomplete animations."
+            },
+            {
+              "type": "warning",
+              "code": "DOMAIN_SEMANTIC_ISSUE",
+              "message": "While the function describes the implementation of various motions fluidly, the transition handling between phases could be made more robust by including a state consistency check to ensure smoother and more organic transitions, particularly under varying input conditions."
+            }
+          ]
+        }
+      }
+    },
+    "seductive_walk": {
+      "blockName": "seductive_walk",
+      "blockPath": "/Users/ajaxdavis/repos/lisa/posers/packages/motion-dsl/src/motions/seductive-walk.ts",
+      "files": [
+        {
+          "path": "seductive-walk.ts",
+          "hash": "6df6da72cf509004fd61672be3a9f58970b1c6302c447b3046a33e7d8e3f39e5",
+          "size": 19874,
+          "mtime": 1767437988644.3987
+        }
+      ],
+      "contentHash": "f1ccd36dc784a6fe2222d7b22dd657f0664beab285e897c2450dd2ff49ff6f16",
+      "configHash": "f781afcdf338e98d99f707b9e1a8cd940ecd861ddd8ebc702823560ee2e35a7f",
+      "lastValidated": "2026-01-03T11:05:56.856Z",
+      "lastRunId": "2026-01-03T11-04-33-712Z",
+      "validatorResults": {
+        "schema.io": {
+          "passed": true,
+          "hash": "f1ccd36dc784a6fe2222d7b22dd657f0664beab285e897c2450dd2ff49ff6f16",
+          "issues": []
+        },
+        "domain.validation": {
+          "passed": true,
+          "hash": "f1ccd36dc784a6fe2222d7b22dd657f0664beab285e897c2450dd2ff49ff6f16",
+          "issues": []
+        }
+      }
+    },
+    "contemplative_lean": {
+      "blockName": "contemplative_lean",
+      "blockPath": "/Users/ajaxdavis/repos/lisa/posers/packages/motion-dsl/src/motions/contemplative-lean.ts",
+      "files": [
+        {
+          "path": "contemplative-lean.ts",
+          "hash": "df82146fbaeb26d44d6d0ba9e32b49758cecfcf8e5652b95b4e3884e17f8d3ed",
+          "size": 23454,
+          "mtime": 1767438110739.5535
+        }
+      ],
+      "contentHash": "7204bd91e5182d0040554e23a031f02608448ebeba48eb5c675e95a83a9e42ba",
+      "configHash": "fd5591a3aa79ec5c81bd5d71fa9de7f017255abde2a78b942f96ff59cefc18ad",
+      "lastValidated": "2026-01-03T11:05:59.466Z",
+      "lastRunId": "2026-01-03T11-04-33-712Z",
+      "validatorResults": {
+        "schema.io": {
+          "passed": true,
+          "hash": "7204bd91e5182d0040554e23a031f02608448ebeba48eb5c675e95a83a9e42ba",
+          "issues": []
+        },
+        "domain.validation": {
+          "passed": true,
+          "hash": "7204bd91e5182d0040554e23a031f02608448ebeba48eb5c675e95a83a9e42ba",
+          "issues": []
+        }
+      }
+    }
+  }
+}

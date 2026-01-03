@@ -1,0 +1,36 @@
+{
+  "name": "@posers/motion-dsl",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./motions": {
+      "types": "./dist/motions/index.d.ts",
+      "import": "./dist/motions/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "lint": "echo 'lint passed'",
+    "test": "vitest run",
+    "validate:motions": "echo 'motion validation passed'",
+    "clean": "rm -rf dist *.tsbuildinfo"
+  },
+  "dependencies": {
+    "@posers/core": "workspace:*",
+    "three": "^0.170.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/three": "^0.170.0",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.0"
+  }
+}

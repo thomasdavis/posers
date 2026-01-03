@@ -1,0 +1,542 @@
+{
+  "version": "1.0",
+  "id": "2026-01-03T10-48-54-205Z",
+  "timestamp": "2026-01-03T10:48:54.405Z",
+  "configPath": "blocks.yml",
+  "projectName": "Posers Motion Engine",
+  "duration": 300,
+  "summary": {
+    "totalBlocks": 5,
+    "passed": 0,
+    "failed": 0,
+    "warnings": 5,
+    "cached": {
+      "validatorsSkipped": 0,
+      "validatorsRun": 10,
+      "timeSavedMs": 0
+    }
+  },
+  "blocks": [
+    {
+      "blockName": "confident_stance",
+      "blockPath": "/Users/ajaxdavis/repos/lisa/posers/packages/motion-dsl/src/motions/confident-stance.ts",
+      "hasErrors": false,
+      "hasWarnings": true,
+      "validators": [
+        {
+          "id": "schema.io",
+          "label": "schema",
+          "passed": true,
+          "duration": 0,
+          "issues": [],
+          "context": {
+            "filesAnalyzed": [
+              "blocks.yml"
+            ],
+            "rulesApplied": [
+              "input_schema_complete",
+              "output_schema_complete",
+              "block_has_description"
+            ],
+            "summary": "Schema validation passed. Validated 2 input(s) and 1 output(s). All schemas are complete with name and type fields.",
+            "input": {
+              "blockName": "confident_stance",
+              "inputs": [
+                {
+                  "name": "rig",
+                  "type": "entity.rig"
+                },
+                {
+                  "name": "ctx",
+                  "type": "entity.motion_context"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "pose",
+                  "type": "entity.motion_program",
+                  "constraints": [
+                    "Must animate spine chain for posture",
+                    "Must include subtle breathing oscillation",
+                    "Must add micro-movement noise layer",
+                    "Should animate fingers if available",
+                    "Should animate eyes if available"
+                  ]
+                }
+              ],
+              "description": "Power pose with subtle breathing and weight shifts - uses all available bones",
+              "path": "packages/motion-dsl/src/motions/confident-stance.ts"
+            },
+            "output": {
+              "checksPerformed": [
+                "Validating 2 input definition(s)",
+                "  ✓ Input \"rig\" has valid schema (type: entity.rig)",
+                "  ✓ Input \"ctx\" has valid schema (type: entity.motion_context)",
+                "Validating 1 output definition(s)",
+                "  ✓ Output \"pose\" has valid schema (type: entity.motion_program)",
+                "✓ Block has description: \"Power pose with subtle breathing and weight shifts...\""
+              ],
+              "inputCount": 2,
+              "outputCount": 1,
+              "hasDescription": true
+            }
+          }
+        },
+        {
+          "id": "domain.validation",
+          "label": "domain",
+          "passed": true,
+          "duration": 121,
+          "issues": [
+            {
+              "type": "warning",
+              "code": "AI_VALIDATION_FAILED",
+              "message": "AI validation failed: OpenAI API key is missing. Pass it using the 'apiKey' parameter or the OPENAI_API_KEY environment variable."
+            }
+          ],
+          "context": {
+            "filesAnalyzed": [
+              "confident-stance.ts"
+            ],
+            "rulesApplied": [],
+            "philosophy": [
+              "Motions must be anatomically accurate and biomechanically sound",
+              "Every motion should utilize maximum bone engagement for realism",
+              "Transitions between motions must be fluid and seamless",
+              "Code must be deterministic - same seed produces same animation",
+              "Movements should feel organic through layered animation and secondary motion",
+              "All motions must gracefully handle missing optional bones",
+              "Performance is critical - updates must complete in under 2ms",
+              "Physics-based spring dynamics create natural acceleration curves",
+              "Micro-movements and noise add life to static poses"
+            ],
+            "summary": "AI validation failed: OpenAI API key is missing. Pass it using the 'apiKey' parameter or the OPENAI_API_KEY environment variable."
+          }
+        }
+      ],
+      "cache": {
+        "decision": "Force mode: running all validators",
+        "skippedValidators": 0,
+        "revalidationReason": "force_flag"
+      }
+    },
+    {
+      "blockName": "nervous_fidget",
+      "blockPath": "/Users/ajaxdavis/repos/lisa/posers/packages/motion-dsl/src/motions/nervous-fidget.ts",
+      "hasErrors": false,
+      "hasWarnings": true,
+      "validators": [
+        {
+          "id": "schema.io",
+          "label": "schema",
+          "passed": true,
+          "duration": 0,
+          "issues": [],
+          "context": {
+            "filesAnalyzed": [
+              "blocks.yml"
+            ],
+            "rulesApplied": [
+              "input_schema_complete",
+              "output_schema_complete",
+              "block_has_description"
+            ],
+            "summary": "Schema validation passed. Validated 2 input(s) and 1 output(s). All schemas are complete with name and type fields.",
+            "input": {
+              "blockName": "nervous_fidget",
+              "inputs": [
+                {
+                  "name": "rig",
+                  "type": "entity.rig"
+                },
+                {
+                  "name": "ctx",
+                  "type": "entity.motion_context"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "pose",
+                  "type": "entity.motion_program",
+                  "constraints": [
+                    "Must show tension in shoulders and neck",
+                    "Must include irregular weight shifting",
+                    "Must animate hands/fingers for fidgeting",
+                    "Should include rapid eye movement if available",
+                    "Breathing should be shallow and faster"
+                  ]
+                }
+              ],
+              "description": "Anxiety-driven fidgeting with weight shifts and self-soothing gestures",
+              "path": "packages/motion-dsl/src/motions/nervous-fidget.ts"
+            },
+            "output": {
+              "checksPerformed": [
+                "Validating 2 input definition(s)",
+                "  ✓ Input \"rig\" has valid schema (type: entity.rig)",
+                "  ✓ Input \"ctx\" has valid schema (type: entity.motion_context)",
+                "Validating 1 output definition(s)",
+                "  ✓ Output \"pose\" has valid schema (type: entity.motion_program)",
+                "✓ Block has description: \"Anxiety-driven fidgeting with weight shifts and se...\""
+              ],
+              "inputCount": 2,
+              "outputCount": 1,
+              "hasDescription": true
+            }
+          }
+        },
+        {
+          "id": "domain.validation",
+          "label": "domain",
+          "passed": true,
+          "duration": 10,
+          "issues": [
+            {
+              "type": "warning",
+              "code": "AI_VALIDATION_FAILED",
+              "message": "AI validation failed: OpenAI API key is missing. Pass it using the 'apiKey' parameter or the OPENAI_API_KEY environment variable."
+            }
+          ],
+          "context": {
+            "filesAnalyzed": [
+              "nervous-fidget.ts"
+            ],
+            "rulesApplied": [],
+            "philosophy": [
+              "Motions must be anatomically accurate and biomechanically sound",
+              "Every motion should utilize maximum bone engagement for realism",
+              "Transitions between motions must be fluid and seamless",
+              "Code must be deterministic - same seed produces same animation",
+              "Movements should feel organic through layered animation and secondary motion",
+              "All motions must gracefully handle missing optional bones",
+              "Performance is critical - updates must complete in under 2ms",
+              "Physics-based spring dynamics create natural acceleration curves",
+              "Micro-movements and noise add life to static poses"
+            ],
+            "summary": "AI validation failed: OpenAI API key is missing. Pass it using the 'apiKey' parameter or the OPENAI_API_KEY environment variable."
+          }
+        }
+      ],
+      "cache": {
+        "decision": "Force mode: running all validators",
+        "skippedValidators": 0,
+        "revalidationReason": "force_flag"
+      }
+    },
+    {
+      "blockName": "smoking_cigarette",
+      "blockPath": "/Users/ajaxdavis/repos/lisa/posers/packages/motion-dsl/src/motions/smoking-cigarette.ts",
+      "hasErrors": false,
+      "hasWarnings": true,
+      "validators": [
+        {
+          "id": "schema.io",
+          "label": "schema",
+          "passed": true,
+          "duration": 0,
+          "issues": [],
+          "context": {
+            "filesAnalyzed": [
+              "blocks.yml"
+            ],
+            "rulesApplied": [
+              "input_schema_complete",
+              "output_schema_complete",
+              "block_has_description"
+            ],
+            "summary": "Schema validation passed. Validated 2 input(s) and 1 output(s). All schemas are complete with name and type fields.",
+            "input": {
+              "blockName": "smoking_cigarette",
+              "inputs": [
+                {
+                  "name": "rig",
+                  "type": "entity.rig"
+                },
+                {
+                  "name": "ctx",
+                  "type": "entity.motion_context"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "pose",
+                  "type": "entity.motion_program",
+                  "constraints": [
+                    "Must implement state machine: idle, bring_to_mouth, inhale, hold, exhale, lower, ash_tap",
+                    "Must use precise finger positioning for cigarette grip",
+                    "Must coordinate breathing with inhale/exhale phases",
+                    "Must use spring physics for arm movement",
+                    "Must include secondary motion on fingers",
+                    "Should squint eyes during inhale if available",
+                    "Should animate jaw during exhale if available"
+                  ]
+                }
+              ],
+              "description": "Complete smoking animation with hand-to-mouth, inhale, exhale phases",
+              "path": "packages/motion-dsl/src/motions/smoking-cigarette.ts"
+            },
+            "output": {
+              "checksPerformed": [
+                "Validating 2 input definition(s)",
+                "  ✓ Input \"rig\" has valid schema (type: entity.rig)",
+                "  ✓ Input \"ctx\" has valid schema (type: entity.motion_context)",
+                "Validating 1 output definition(s)",
+                "  ✓ Output \"pose\" has valid schema (type: entity.motion_program)",
+                "✓ Block has description: \"Complete smoking animation with hand-to-mouth, inh...\""
+              ],
+              "inputCount": 2,
+              "outputCount": 1,
+              "hasDescription": true
+            }
+          }
+        },
+        {
+          "id": "domain.validation",
+          "label": "domain",
+          "passed": true,
+          "duration": 3,
+          "issues": [
+            {
+              "type": "warning",
+              "code": "AI_VALIDATION_FAILED",
+              "message": "AI validation failed: OpenAI API key is missing. Pass it using the 'apiKey' parameter or the OPENAI_API_KEY environment variable."
+            }
+          ],
+          "context": {
+            "filesAnalyzed": [
+              "smoking-cigarette.ts"
+            ],
+            "rulesApplied": [],
+            "philosophy": [
+              "Motions must be anatomically accurate and biomechanically sound",
+              "Every motion should utilize maximum bone engagement for realism",
+              "Transitions between motions must be fluid and seamless",
+              "Code must be deterministic - same seed produces same animation",
+              "Movements should feel organic through layered animation and secondary motion",
+              "All motions must gracefully handle missing optional bones",
+              "Performance is critical - updates must complete in under 2ms",
+              "Physics-based spring dynamics create natural acceleration curves",
+              "Micro-movements and noise add life to static poses"
+            ],
+            "summary": "AI validation failed: OpenAI API key is missing. Pass it using the 'apiKey' parameter or the OPENAI_API_KEY environment variable."
+          }
+        }
+      ],
+      "cache": {
+        "decision": "Force mode: running all validators",
+        "skippedValidators": 0,
+        "revalidationReason": "force_flag"
+      }
+    },
+    {
+      "blockName": "seductive_walk",
+      "blockPath": "/Users/ajaxdavis/repos/lisa/posers/packages/motion-dsl/src/motions/seductive-walk.ts",
+      "hasErrors": false,
+      "hasWarnings": true,
+      "validators": [
+        {
+          "id": "schema.io",
+          "label": "schema",
+          "passed": true,
+          "duration": 0,
+          "issues": [],
+          "context": {
+            "filesAnalyzed": [
+              "blocks.yml"
+            ],
+            "rulesApplied": [
+              "input_schema_complete",
+              "output_schema_complete",
+              "block_has_description"
+            ],
+            "summary": "Schema validation passed. Validated 2 input(s) and 1 output(s). All schemas are complete with name and type fields.",
+            "input": {
+              "blockName": "seductive_walk",
+              "inputs": [
+                {
+                  "name": "rig",
+                  "type": "entity.rig"
+                },
+                {
+                  "name": "ctx",
+                  "type": "entity.motion_context"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "pose",
+                  "type": "entity.motion_program",
+                  "constraints": [
+                    "Must implement full gait cycle with proper phase timing",
+                    "Must include hip sway with spine counter-rotation",
+                    "Must animate all leg bones including toes if available",
+                    "Must include fluid arm swing with wrist rotation",
+                    "Must keep head stable with slight tilt",
+                    "Should use crossover step pattern",
+                    "Should include secondary motion for follow-through"
+                  ]
+                }
+              ],
+              "description": "Runway-style walk with exaggerated hip sway and fluid arm movement",
+              "path": "packages/motion-dsl/src/motions/seductive-walk.ts"
+            },
+            "output": {
+              "checksPerformed": [
+                "Validating 2 input definition(s)",
+                "  ✓ Input \"rig\" has valid schema (type: entity.rig)",
+                "  ✓ Input \"ctx\" has valid schema (type: entity.motion_context)",
+                "Validating 1 output definition(s)",
+                "  ✓ Output \"pose\" has valid schema (type: entity.motion_program)",
+                "✓ Block has description: \"Runway-style walk with exaggerated hip sway and fl...\""
+              ],
+              "inputCount": 2,
+              "outputCount": 1,
+              "hasDescription": true
+            }
+          }
+        },
+        {
+          "id": "domain.validation",
+          "label": "domain",
+          "passed": true,
+          "duration": 4,
+          "issues": [
+            {
+              "type": "warning",
+              "code": "AI_VALIDATION_FAILED",
+              "message": "AI validation failed: OpenAI API key is missing. Pass it using the 'apiKey' parameter or the OPENAI_API_KEY environment variable."
+            }
+          ],
+          "context": {
+            "filesAnalyzed": [
+              "seductive-walk.ts"
+            ],
+            "rulesApplied": [],
+            "philosophy": [
+              "Motions must be anatomically accurate and biomechanically sound",
+              "Every motion should utilize maximum bone engagement for realism",
+              "Transitions between motions must be fluid and seamless",
+              "Code must be deterministic - same seed produces same animation",
+              "Movements should feel organic through layered animation and secondary motion",
+              "All motions must gracefully handle missing optional bones",
+              "Performance is critical - updates must complete in under 2ms",
+              "Physics-based spring dynamics create natural acceleration curves",
+              "Micro-movements and noise add life to static poses"
+            ],
+            "summary": "AI validation failed: OpenAI API key is missing. Pass it using the 'apiKey' parameter or the OPENAI_API_KEY environment variable."
+          }
+        }
+      ],
+      "cache": {
+        "decision": "Force mode: running all validators",
+        "skippedValidators": 0,
+        "revalidationReason": "force_flag"
+      }
+    },
+    {
+      "blockName": "contemplative_lean",
+      "blockPath": "/Users/ajaxdavis/repos/lisa/posers/packages/motion-dsl/src/motions/contemplative-lean.ts",
+      "hasErrors": false,
+      "hasWarnings": true,
+      "validators": [
+        {
+          "id": "schema.io",
+          "label": "schema",
+          "passed": true,
+          "duration": 0,
+          "issues": [],
+          "context": {
+            "filesAnalyzed": [
+              "blocks.yml"
+            ],
+            "rulesApplied": [
+              "input_schema_complete",
+              "output_schema_complete",
+              "block_has_description"
+            ],
+            "summary": "Schema validation passed. Validated 2 input(s) and 1 output(s). All schemas are complete with name and type fields.",
+            "input": {
+              "blockName": "contemplative_lean",
+              "inputs": [
+                {
+                  "name": "rig",
+                  "type": "entity.rig"
+                },
+                {
+                  "name": "ctx",
+                  "type": "entity.motion_context"
+                }
+              ],
+              "outputs": [
+                {
+                  "name": "pose",
+                  "type": "entity.motion_program",
+                  "constraints": [
+                    "Must implement asymmetric weight distribution",
+                    "Must include hand-to-chin or crossed arms pose",
+                    "Must animate all finger bones for detailed hand pose",
+                    "Must include slow contemplative breathing",
+                    "Must add subtle weight shift micro-movements",
+                    "Should include thinking gestures (head tilt, eye movement)",
+                    "Should support multiple pose variants via parameters"
+                  ]
+                }
+              ],
+              "description": "Thoughtful asymmetric pose with weight on one leg and thinking gestures",
+              "path": "packages/motion-dsl/src/motions/contemplative-lean.ts"
+            },
+            "output": {
+              "checksPerformed": [
+                "Validating 2 input definition(s)",
+                "  ✓ Input \"rig\" has valid schema (type: entity.rig)",
+                "  ✓ Input \"ctx\" has valid schema (type: entity.motion_context)",
+                "Validating 1 output definition(s)",
+                "  ✓ Output \"pose\" has valid schema (type: entity.motion_program)",
+                "✓ Block has description: \"Thoughtful asymmetric pose with weight on one leg ...\""
+              ],
+              "inputCount": 2,
+              "outputCount": 1,
+              "hasDescription": true
+            }
+          }
+        },
+        {
+          "id": "domain.validation",
+          "label": "domain",
+          "passed": true,
+          "duration": 4,
+          "issues": [
+            {
+              "type": "warning",
+              "code": "AI_VALIDATION_FAILED",
+              "message": "AI validation failed: OpenAI API key is missing. Pass it using the 'apiKey' parameter or the OPENAI_API_KEY environment variable."
+            }
+          ],
+          "context": {
+            "filesAnalyzed": [
+              "contemplative-lean.ts"
+            ],
+            "rulesApplied": [],
+            "philosophy": [
+              "Motions must be anatomically accurate and biomechanically sound",
+              "Every motion should utilize maximum bone engagement for realism",
+              "Transitions between motions must be fluid and seamless",
+              "Code must be deterministic - same seed produces same animation",
+              "Movements should feel organic through layered animation and secondary motion",
+              "All motions must gracefully handle missing optional bones",
+              "Performance is critical - updates must complete in under 2ms",
+              "Physics-based spring dynamics create natural acceleration curves",
+              "Micro-movements and noise add life to static poses"
+            ],
+            "summary": "AI validation failed: OpenAI API key is missing. Pass it using the 'apiKey' parameter or the OPENAI_API_KEY environment variable."
+          }
+        }
+      ],
+      "cache": {
+        "decision": "Force mode: running all validators",
+        "skippedValidators": 0,
+        "revalidationReason": "force_flag"
+      }
+    }
+  ]
+}

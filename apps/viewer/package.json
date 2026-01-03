@@ -1,0 +1,30 @@
+{
+  "name": "@posers/viewer",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@pixiv/three-vrm": "^3.3.4",
+    "@posers/core": "workspace:*",
+    "@posers/motion-dsl": "workspace:*",
+    "@posers/vrm-runtime": "workspace:*",
+    "@posers/validator": "workspace:*",
+    "next": "^14.2.18",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "three": "^0.170.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@types/three": "^0.170.0",
+    "typescript": "^5.7.2"
+  }
+}

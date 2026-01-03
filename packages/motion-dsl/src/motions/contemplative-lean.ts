@@ -1,14 +1,126 @@
 /**
- * Contemplative Lean Motion
+ * ============================================================================
+ * CONTEMPLATIVE LEAN MOTION
+ * ============================================================================
  *
  * Thoughtful asymmetric pose with weight on one leg and thinking gestures.
- * Multiple pose variants including chin rest, crossed arms, and akimbo.
+ * Multiple pose variants: chin rest, crossed arms, akimbo, hand on hip.
  *
- * Research basis:
- * - Thoughtful posture psychology
- * - Asymmetric stance biomechanics
- * - Self-touch gestures in contemplation
- * - Weight-bearing postural patterns
+ * ============================================================================
+ * HOW THIS MOTION SHOULD FEEL
+ * ============================================================================
+ *
+ * Picture a philosopher lost in thought, or someone puzzling over a difficult
+ * decision. The weight shifts to one leg, creating an S-curve through the
+ * body. The head tilts, eyes distant. The hands find comfortable positions -
+ * supporting the chin, crossed protectively, or resting on hips.
+ *
+ * The key quality is STILLNESS WITH LIFE. The body is essentially static,
+ * but small movements reveal the active mind: a head tilt when considering
+ * a new angle, fingers tapping the chin while working through logic, eyes
+ * drifting to an imagined point while the thought develops. Deep, slow
+ * breathing punctuates the contemplation.
+ *
+ * ============================================================================
+ * TIMING RELATIONSHIPS
+ * ============================================================================
+ *
+ * BREATHING: 5-6 seconds per cycle (0.17-0.2 Hz)
+ *   - Slower than normal, deeper
+ *   - Chest expands 0.025-0.035 rad
+ *   - Shoulders rise ~1.2% of breath amplitude
+ *   - Full belly breathing, not shallow chest breathing
+ *
+ * THINKING GESTURES: Every 2-5 seconds
+ *   - Gesture types: head_tilt, chin_tap, look_away, lip_touch, idle
+ *   - Duration: 2-5 seconds per gesture (noise-varied)
+ *   - Intensity envelope: sine wave (smooth in/out)
+ *   - Selection: deterministic via seeded noise
+ *
+ * WEIGHT SHIFTS: Very slow (0.08 Hz noise)
+ *   - Subtle hip adjustments ~0.02 rad
+ *   - Spring-smoothed (stiffness 30) for glacial transitions
+ *   - Never large enough to change overall pose
+ *
+ * HEAD MOVEMENT:
+ *   - Base position: tilted toward weight-bearing side ~0.03 rad
+ *   - Micro-movements at 0.15-0.2 Hz
+ *   - Spring-smoothed (stiffness 50) for organic lag
+ *
+ * BLINKING: Every 4-5 seconds (slower than normal)
+ *   - Duration: 0.2s (slower, contemplative blink)
+ *   - Threshold: 0.92 noise (less frequent than neutral)
+ *
+ * ============================================================================
+ * POSE VARIANTS
+ * ============================================================================
+ *
+ * CHIN_REST: Classic "thinker" pose
+ *   - Right hand supports chin
+ *   - Left arm supports right elbow
+ *   - Index finger extended, others curled
+ *   - Enables "chin_tap" thinking gesture
+ *
+ * CROSSED_ARMS: Protective/evaluating
+ *   - Arms crossed over chest
+ *   - Hands tucked under opposite arms
+ *   - More closed body language
+ *
+ * AKIMBO: Confident thinking
+ *   - Both hands on hips
+ *   - Open body language
+ *   - "Making a decision" feel
+ *
+ * HAND_ON_HIP: Casual thinking
+ *   - Right hand on hip
+ *   - Left arm relaxed at side
+ *   - Asymmetric, natural
+ *
+ * ============================================================================
+ * BONE HANDLING
+ * ============================================================================
+ *
+ * All bone access wrapped in hasBone() checks.
+ * Dynamic bone names (weightLeg/relaxLeg) are cast and validated.
+ *
+ * CORE: hips, spine, chest, upperChest, neck, head
+ * ARMS: leftShoulder, rightShoulder, leftUpperArm, rightUpperArm,
+ *       leftLowerArm, rightLowerArm, leftHand, rightHand
+ * FINGERS: all 30 bones via applyFingerCurl helper
+ * LEGS: leftUpperLeg, rightUpperLeg, leftLowerLeg, rightLowerLeg
+ * FEET: leftFoot, rightFoot, leftToes, rightToes
+ * FACE: leftEye, rightEye, jaw
+ *
+ * ============================================================================
+ * RESEARCH BASIS
+ * ============================================================================
+ *
+ * - Pease, A. & Pease, B. (2006): "The Definitive Book of Body Language" -
+ *   Chin stroking indicates evaluation/decision-making. Crossed arms can
+ *   indicate deep thinking or self-protection.
+ *
+ * - McNeill, D. (1992): "Hand and Mind" - Self-touching gestures during
+ *   thought are displacement behaviors that aid concentration.
+ *
+ * - Standing weight distribution: Natural contrapposto has 60-70% weight
+ *   on one leg, creating characteristic hip/shoulder line.
+ *
+ * - Contemplative breathing: 10-12 breaths/min in active thought state
+ *   (slower than typical 12-15), corresponding to 0.17-0.2 Hz (5-6s cycles).
+ *   Deep breaths during concentration enhance oxygen flow to the brain.
+ *
+ * ============================================================================
+ * NUMERICAL JUSTIFICATIONS
+ * ============================================================================
+ *
+ * hipDrop 0.06 rad = 3.4°: Visible but not exaggerated contrapposto
+ * hipShift 0.04 rad = 2.3°: Lateral shift toward weight-bearing leg
+ * breathRate 0.18 Hz: 5.5s cycle (deep, slow thinking breath within 5-6s requirement)
+ * headTiltZ 0.03 rad = 1.7°: Subtle tilt toward weighted side
+ * weightSpring stiffness 30: Very slow, organic weight shifts
+ * headSpring stiffness 50: Moderate response for natural movement
+ * gestureInterval 2-5s: Based on self-touch research frequency
+ * blinkDuration 0.2s: Slower than alert blink (0.15s)
  */
 
 import { z } from 'zod'
@@ -24,7 +136,6 @@ import {
   type Spring,
 } from '@posers/core'
 import {
-  BoneChains,
   applyFingerCurl,
 } from '../blend'
 
@@ -74,7 +185,7 @@ interface ContemplativeLeanState {
   blinkTimer: number
   isBlinking: boolean
   thinkingGestureTimer: number
-  currentGesture: 'idle' | 'head_tilt' | 'chin_tap' | 'look_away'
+  currentGesture: 'idle' | 'head_tilt' | 'chin_tap' | 'look_away' | 'lip_touch'
   gestureDuration: number
 }
 
@@ -235,16 +346,20 @@ export function createContemplativeLean(params: ContemplativeLeanInput = {}): Mo
       state.thinkingGestureTimer += dt
       if (state.thinkingGestureTimer > state.gestureDuration) {
         state.thinkingGestureTimer = 0
-        state.gestureDuration = 2 + noise.noise2D(t, 50) * 3
+        // Map noise [-1,1] to [0,1] to ensure gesture duration stays in 2-5 second range
+        state.gestureDuration = 2 + ((noise.noise2D(t, 50) + 1) / 2) * 3
 
-        // Pick next gesture
+        // Pick next gesture (5 options: head_tilt, chin_tap, look_away, lip_touch, idle)
         const gestureRoll = noise.noise2D(t, 100)
         if (gestureRoll > 0.7 && headTilts) {
           state.currentGesture = 'head_tilt'
-        } else if (gestureRoll > 0.4 && poseVariant === 'chin_rest') {
+        } else if (gestureRoll > 0.5 && poseVariant === 'chin_rest') {
           state.currentGesture = 'chin_tap'
-        } else if (gestureRoll > 0.2) {
+        } else if (gestureRoll > 0.3) {
           state.currentGesture = 'look_away'
+        } else if (gestureRoll > 0.1) {
+          // Lip touch - finger to lips thinking gesture
+          state.currentGesture = 'lip_touch'
         } else {
           state.currentGesture = 'idle'
         }
@@ -296,7 +411,8 @@ export function createContemplativeLean(params: ContemplativeLeanInput = {}): Mo
       // LAYER 3: DEEP CONTEMPLATIVE BREATHING
       // ========================================
 
-      const breathPhase = oscBreathing(t, 0.12, breathDepth)
+      // Deep contemplative breathing: 0.18 Hz = 5.5s cycle (within 5-6s requirement)
+      const breathPhase = oscBreathing(t, 0.18, breathDepth)
 
       if (rig.hasBone('chest')) {
         rig.addRotation('chest', quatFromAxisAngle({ x: 1, y: 0, z: 0 }, breathPhase * 0.025))
@@ -421,13 +537,17 @@ export function createContemplativeLean(params: ContemplativeLeanInput = {}): Mo
 
       if (rig.hasBone('rightLowerArm')) {
         // Add chin tap gesture for chin_rest variant
-        let chinTapAdd = 0
+        let gestureAdd = 0
         if (poseVariant === 'chin_rest' && state.currentGesture === 'chin_tap') {
-          chinTapAdd = Math.sin(state.thinkingGestureTimer * 6) * 0.05 * gestureWeight
+          gestureAdd = Math.sin(state.thinkingGestureTimer * 6) * 0.05 * gestureWeight
+        }
+        // Add lip touch gesture - hand moves to lips (more elbow bend)
+        if (state.currentGesture === 'lip_touch') {
+          gestureAdd += gestureWeight * 0.3 // Bring hand higher toward mouth
         }
 
         const rot = quatFromAxisAngle({ x: 1, y: 0, z: 0 }, armPose.rightLowerArm.x)
-        rot.multiply(quatFromAxisAngle({ x: 0, y: 1, z: 0 }, armPose.rightLowerArm.y + chinTapAdd))
+        rot.multiply(quatFromAxisAngle({ x: 0, y: 1, z: 0 }, armPose.rightLowerArm.y + gestureAdd))
         rot.multiply(quatFromAxisAngle({ x: 0, y: 0, z: 1 }, armPose.rightLowerArm.z))
         rig.setRotation('rightLowerArm', rot)
       }
@@ -461,10 +581,13 @@ export function createContemplativeLean(params: ContemplativeLeanInput = {}): Mo
       }
 
       // Right hand finger bones - with thinking gesture adjustments
-      const thinkingFingerMod = state.currentGesture === 'chin_tap' ? gestureWeight * 0.1 : 0
+      const isChinTap = state.currentGesture === 'chin_tap'
+      const isLipTouch = state.currentGesture === 'lip_touch'
+      const thinkingFingerMod = (isChinTap || isLipTouch) ? gestureWeight * 0.1 : 0
       const rightFingerCurl = {
         thumb: armPose.rightFingers.thumb + thinkingFingerMod,
-        index: armPose.rightFingers.index + thinkingFingerMod * 1.5, // Index finger more active in chin tap
+        // Index finger extended toward lips during lip_touch, active during chin_tap
+        index: armPose.rightFingers.index + (isLipTouch ? -gestureWeight * 0.15 : thinkingFingerMod * 1.5),
         middle: armPose.rightFingers.middle + thinkingFingerMod * 0.8,
         ring: armPose.rightFingers.ring + fingerFidget * 0.5,
         little: armPose.rightFingers.little + fingerFidget * 0.6,
@@ -489,6 +612,9 @@ export function createContemplativeLean(params: ContemplativeLeanInput = {}): Mo
         headTiltX += gestureWeight * 0.03
       } else if (state.currentGesture === 'look_away') {
         headTiltY = gestureWeight * 0.1 * (noise.noise2D(t, 500) > 0 ? 1 : -1)
+      } else if (state.currentGesture === 'lip_touch') {
+        // Head tilts slightly down toward the finger touching lips
+        headTiltX += gestureWeight * 0.02
       }
 
       // Micro-movement

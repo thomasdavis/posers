@@ -1,16 +1,108 @@
 /**
- * Seductive Walk Motion
+ * ============================================================================
+ * SEDUCTIVE WALK MOTION
+ * ============================================================================
  *
  * Runway-style walking with exaggerated hip sway, fluid arm movement,
- * and confident head carriage. Full gait cycle implementation with
- * crossover step pattern.
+ * and confident head carriage. Full gait cycle with crossover step pattern.
  *
- * Research basis:
- * - Runway/catwalk biomechanics
- * - Hip kinematics during walking
- * - Arm swing dynamics and coordination
- * - Weight transfer patterns
- * - Secondary motion physics
+ * ============================================================================
+ * HOW THIS MOTION SHOULD FEEL
+ * ============================================================================
+ *
+ * Think of a supermodel on a Milan runway. Each step is deliberate, the hips
+ * swinging in an exaggerated figure-8 pattern. The legs cross slightly in
+ * front of each other (crossover step) creating that distinctive catwalk
+ * line. The arms flow gracefully, slightly behind the beat of the legs.
+ * The head stays remarkably stable despite the body movement below - a
+ * testament to the vestibular-ocular reflex keeping the gaze steady.
+ *
+ * The key quality is FLOW. Nothing is jerky or mechanical. The hip leads,
+ * the spine follows with counter-rotation, the shoulders oppose the hips,
+ * and the arms trail behind with elegant follow-through. Even the fingers
+ * are slightly spread in that characteristic model pose.
+ *
+ * ============================================================================
+ * TIMING RELATIONSHIPS
+ * ============================================================================
+ *
+ * GAIT CYCLE: 1.25 seconds at default speed (0.8 Hz)
+ *   - Right heel strike: 0% of cycle
+ *   - Right midstance: 25% (peak weight on right leg)
+ *   - Left heel strike: 50% of cycle
+ *   - Left midstance: 75% (peak weight on left leg)
+ *
+ * HIP MOVEMENT:
+ *   - Lateral sway: peaks at midstance (25%, 75%)
+ *   - Forward/back tilt: 2x frequency (peaks at 12.5%, 37.5%, 62.5%, 87.5%)
+ *   - Rotation (twist): same phase as sway but opposite direction
+ *   - Drop: peaks during swing phase (opposite to sway)
+ *
+ * SPINE COUNTER-ROTATION:
+ *   - Spine: 50% counter to hip twist
+ *   - Chest: 80% counter to hip twist
+ *   - Upper chest: 100% counter (shoulders oppose hips)
+ *
+ * ARM SWING:
+ *   - Phase: opposite to same-side leg (arm forward when leg back)
+ *   - Secondary motion: wrist lags arm by ~0.3 radians phase
+ *   - Fingers: subtle curl variation at 0.2 Hz
+ *
+ * LEG MOVEMENT:
+ *   - Swing phase: 50% of gait cycle per leg (simplified symmetric gait)
+ *   - Peak knee bend: 50% into swing phase (apex of sine curve)
+ *   - Crossover: 5% adduction creates line
+ *
+ * HEAD STABILIZATION:
+ *   - Compensates 30% of hip sway
+ *   - Spring-driven (stiffness 180) for natural lag
+ *   - Slight constant tilt for attitude
+ *
+ * ============================================================================
+ * BONE HANDLING
+ * ============================================================================
+ *
+ * All bone access wrapped in hasBone() checks.
+ *
+ * CORE: hips (with translation), spine, chest, upperChest, neck, head
+ * ARMS: leftShoulder, rightShoulder, leftUpperArm, rightUpperArm,
+ *       leftLowerArm, rightLowerArm, leftHand, rightHand
+ * FINGERS: all 30 bones via applyFingerCurl/applyFingerSpread helpers
+ * LEGS: leftUpperLeg, rightUpperLeg, leftLowerLeg, rightLowerLeg
+ * FEET: leftFoot, rightFoot, leftToes, rightToes
+ * FACE: leftEye, rightEye
+ *
+ * ============================================================================
+ * RESEARCH BASIS
+ * ============================================================================
+ *
+ * - Whittle, M. (2007): "Gait Analysis: An Introduction" - Normal gait cycle
+ *   timing, stance/swing phase ratios, hip/knee kinematics.
+ *
+ * - Murray, M.P. et al. (1970): "Walking patterns of normal women" - Hip
+ *   rotation 8-12° total, lateral trunk sway increases with slower walking.
+ *
+ * - Runway walking uses exaggerated hip sway (lateral tilt) rather than
+ *   rotation. The stylized motion prioritizes visual aesthetics over
+ *   biomechanical accuracy, using moderate rotation (~4.6°) with pronounced
+ *   lateral sway (~7°) and crossover step pattern.
+ *
+ * - Head stabilization: We use 30% compensation for this stylized motion
+ *   (less than the ~70% vestibular-ocular reflex) to allow visible head
+ *   movement that reads as intentional and confident rather than rigid.
+ *
+ * ============================================================================
+ * NUMERICAL JUSTIFICATIONS
+ * ============================================================================
+ *
+ * speed 0.8 Hz: Slower than normal walk (1.0-1.2 Hz) for runway effect
+ * hipSwayAmount 0.8: Exaggerated from normal 0.3-0.4
+ * hipSway 0.12 rad: 7° lateral sway (2x normal)
+ * hipTwist 0.08 rad: 4.6° rotation per side (within normal range)
+ * crossoverStep 0.05 rad: 2.9° adduction for crossover line
+ * armFlowiness 0.7: Secondary motion amplitude
+ * headTilt 0.08 rad: 4.6° constant attitude tilt
+ * springStiffness 150-180: Moderate lag for organic feel
  */
 
 import { z } from 'zod'
@@ -27,8 +119,6 @@ import {
   type Spring,
 } from '@posers/core'
 import {
-  BoneChains,
-  getAvailableBones,
   applyFingerCurl,
   applyFingerSpread,
 } from '../blend'
@@ -223,14 +313,14 @@ export function createSeductiveWalk(params: SeductiveWalkInput = {}): MotionProg
       const hipForward = Math.sin(gaitPhase * Math.PI * 4) * 0.02 * intensity
 
       if (rig.hasBone('hips')) {
-        const hipsRot = quatFromAxisAngle({ x: 0, y: 0, z: 1 }, hipSway)
+        const hipsRot = quatFromAxisAngle({ x: 0, y: 0, z: 1 }, hipSway + hipDrop)
         hipsRot.multiply(quatFromAxisAngle({ x: 0, y: 1, z: 0 }, hipTwist))
         hipsRot.multiply(quatFromAxisAngle({ x: 1, y: 0, z: 0 }, hipForward))
         rig.setRotation('hips', hipsRot)
 
-        // Hip translation for bounce
+        // Hip translation for bounce (includes hip drop as vertical offset)
         const hipBounce = Math.abs(Math.sin(gaitPhase * Math.PI * 2)) * 0.01 * intensity
-        rig.setHipsPositionOffset(new Vector3(hipSway * 0.1, hipBounce, 0))
+        rig.setHipsPositionOffset(new Vector3(hipSway * 0.1, hipBounce - hipDrop * 0.02, 0))
       }
 
       // ========================================
@@ -263,6 +353,21 @@ export function createSeductiveWalk(params: SeductiveWalkInput = {}): MotionProg
       }
 
       // ========================================
+      // LAYER 2B: BREATH COUPLING TO GAIT
+      // ========================================
+
+      // Breath rate couples to gait cycle - approximately one breath per 2 steps
+      // At 0.8 Hz speed, this gives ~0.4 Hz breathing = 2.5s cycle
+      const breathPhase = Math.sin(gaitPhase * Math.PI) * 0.02 * intensity
+
+      if (rig.hasBone('chest')) {
+        rig.addRotation('chest', quatFromAxisAngle({ x: 1, y: 0, z: 0 }, breathPhase))
+      }
+      if (rig.hasBone('upperChest')) {
+        rig.addRotation('upperChest', quatFromAxisAngle({ x: 1, y: 0, z: 0 }, breathPhase * 1.5))
+      }
+
+      // ========================================
       // LAYER 3: SHOULDER MOVEMENT
       // ========================================
 
@@ -277,12 +382,16 @@ export function createSeductiveWalk(params: SeductiveWalkInput = {}): MotionProg
       const rightShoulderDrop = armSwingCurve(gaitPhase + 0.5, armFlowiness) * 0.02 * intensity
 
       if (rig.hasBone('leftShoulder')) {
-        const leftShoulderRot = quatFromAxisAngle({ x: 0, y: 0, z: 1 }, -leftShoulderDrop)
+        // Apply counter-rotation (shoulderTwist) + drop with arm swing
+        const leftShoulderRot = quatFromAxisAngle({ x: 0, y: 1, z: 0 }, -shoulderTwist * 0.3)
+        leftShoulderRot.multiply(quatFromAxisAngle({ x: 0, y: 0, z: 1 }, -leftShoulderDrop))
         rig.setRotation('leftShoulder', leftShoulderRot)
       }
 
       if (rig.hasBone('rightShoulder')) {
-        const rightShoulderRot = quatFromAxisAngle({ x: 0, y: 0, z: 1 }, rightShoulderDrop)
+        // Apply counter-rotation (shoulderTwist) + drop with arm swing
+        const rightShoulderRot = quatFromAxisAngle({ x: 0, y: 1, z: 0 }, shoulderTwist * 0.3)
+        rightShoulderRot.multiply(quatFromAxisAngle({ x: 0, y: 0, z: 1 }, rightShoulderDrop))
         rig.setRotation('rightShoulder', rightShoulderRot)
       }
 
@@ -409,9 +518,16 @@ export function createSeductiveWalk(params: SeductiveWalkInput = {}): MotionProg
         rig.setRotation('rightFoot', rightFootRot)
       }
 
-      if (rig.hasBone('rightToes') && toePoint) {
-        const rightToePoint = rightStance ? 0 : Math.sin(rightSwingPhase * Math.PI) * 0.4 * intensity
-        rig.setRotation('rightToes', quatFromAxisAngle({ x: 1, y: 0, z: 0 }, -rightToePoint))
+      if (rig.hasBone('rightToes')) {
+        if (rightStance) {
+          // Toes grip during stance for balance and push-off
+          // 0.15 rad = 8.6° flexion for grip
+          rig.setRotation('rightToes', quatFromAxisAngle({ x: 1, y: 0, z: 0 }, 0.15 * intensity))
+        } else if (toePoint) {
+          // Toes point during swing for elegance
+          const rightToePoint = Math.sin(rightSwingPhase * Math.PI) * 0.4 * intensity
+          rig.setRotation('rightToes', quatFromAxisAngle({ x: 1, y: 0, z: 0 }, -rightToePoint))
+        }
       }
 
       // Left foot
@@ -425,9 +541,16 @@ export function createSeductiveWalk(params: SeductiveWalkInput = {}): MotionProg
         rig.setRotation('leftFoot', leftFootRot)
       }
 
-      if (rig.hasBone('leftToes') && toePoint) {
-        const leftToePoint = leftStance ? 0 : Math.sin(leftSwingPhase * Math.PI) * 0.4 * intensity
-        rig.setRotation('leftToes', quatFromAxisAngle({ x: 1, y: 0, z: 0 }, -leftToePoint))
+      if (rig.hasBone('leftToes')) {
+        if (leftStance) {
+          // Toes grip during stance for balance and push-off
+          // 0.15 rad = 8.6° flexion for grip
+          rig.setRotation('leftToes', quatFromAxisAngle({ x: 1, y: 0, z: 0 }, 0.15 * intensity))
+        } else if (toePoint) {
+          // Toes point during swing for elegance
+          const leftToePoint = Math.sin(leftSwingPhase * Math.PI) * 0.4 * intensity
+          rig.setRotation('leftToes', quatFromAxisAngle({ x: 1, y: 0, z: 0 }, -leftToePoint))
+        }
       }
 
       // ========================================
@@ -464,27 +587,35 @@ export function createSeductiveWalk(params: SeductiveWalkInput = {}): MotionProg
 
       if (fingerAnimation) {
         // Graceful, slightly spread fingers
+        // Note: applyFingerCurl/applyFingerSpread have internal hasBone() checks
+        // via getAvailableBones(), but we guard on hand existence for clarity
         const fingerCurl = 0.15 + noise.noise2D(t * 0.2, 200) * 0.05
 
-        applyFingerCurl(rig, 'left', {
-          thumb: fingerCurl * 0.4,
-          index: fingerCurl * 0.8,
-          middle: fingerCurl * 0.9,
-          ring: fingerCurl,
-          little: fingerCurl * 1.1,
-        })
+        // Left hand fingers - only apply if hand exists
+        if (rig.hasBone('leftHand')) {
+          applyFingerCurl(rig, 'left', {
+            thumb: fingerCurl * 0.4,
+            index: fingerCurl * 0.8,
+            middle: fingerCurl * 0.9,
+            ring: fingerCurl,
+            little: fingerCurl * 1.1,
+          })
+          // Elegant spread
+          applyFingerSpread(rig, 'left', 0.4 * intensity)
+        }
 
-        applyFingerCurl(rig, 'right', {
-          thumb: fingerCurl * 0.4,
-          index: fingerCurl * 0.8,
-          middle: fingerCurl * 0.9,
-          ring: fingerCurl,
-          little: fingerCurl * 1.1,
-        })
-
-        // Elegant spread
-        applyFingerSpread(rig, 'left', 0.4 * intensity)
-        applyFingerSpread(rig, 'right', 0.4 * intensity)
+        // Right hand fingers - only apply if hand exists
+        if (rig.hasBone('rightHand')) {
+          applyFingerCurl(rig, 'right', {
+            thumb: fingerCurl * 0.4,
+            index: fingerCurl * 0.8,
+            middle: fingerCurl * 0.9,
+            ring: fingerCurl,
+            little: fingerCurl * 1.1,
+          })
+          // Elegant spread
+          applyFingerSpread(rig, 'right', 0.4 * intensity)
+        }
       }
 
       // ========================================

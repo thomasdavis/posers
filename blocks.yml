@@ -1,23 +1,70 @@
 # Posers Motion Engine - Blocks Configuration
 # Domain-driven validation for procedural VRM animations
+#
+# CORE INSIGHT: LLMs are great at scaffolding animation systems but terrible at
+# choosing the thousands of tiny coupled numerical decisions that make expressive
+# motion read as "alive." The gap is not mystical—it's "no prior + no critic."
+#
+# This configuration enforces quality-first motion generation with:
+# - Mandatory motion documentation (how it should FEEL, not just what it does)
+# - Maximum bone engagement (every rig attribute must be considered)
+# - Overlapping phase envelopes (not discrete state machines)
+# - Human-like motion as the primary goal (not performance)
 
 name: "Posers Motion Engine"
 root: "packages/motion-dsl/src/motions"
 
 ai:
   provider: "openai"
-  model: "gpt-4o-mini"
+  model: "gpt-5-mini"
 
 philosophy:
+  # QUALITY OVER PERFORMANCE
+  - "Human-like motion is the primary goal - believability trumps all other concerns"
+  - "There are no shortcuts to good animation - every detail matters"
+  - "Motion must feel alive, not just look correct"
+
+  # THE EMBODIMENT PROBLEM
+  - "LLMs lack embodied understanding - every numerical choice must be justified"
+  - "Real humans telegraph movements before executing (anticipation)"
+  - "Real humans have follow-through after movements complete"
+  - "Real humans move on a tight manifold of coordination patterns"
+
+  # PHASE-BASED CONTROL (NOT STATE MACHINES)
+  - "Use overlapping phase envelopes, NOT discrete state machines"
+  - "Shoulder leads elbow, elbow leads wrist, wrist leads fingers"
+  - "Breath phase couples to chest, shoulders, and subtle head motion"
+  - "Weight shifts propagate through spine with natural delays"
+
+  # MAXIMUM BONE ENGAGEMENT
+  - "Every motion must consider ALL 69 VRM bones"
+  - "Core bones (hips, spine, chest, neck, head) are always active"
+  - "Fingers add life even when not the focus of motion"
+  - "Eyes and jaw respond to emotional state"
+  - "Toes grip and respond to weight shifts"
+
+  # ANATOMICAL TRUTH
   - "Motions must be anatomically accurate and biomechanically sound"
-  - "Every motion should utilize maximum bone engagement for realism"
-  - "Transitions between motions must be fluid and seamless"
-  - "Code must be deterministic - same seed produces same animation"
-  - "Movements should feel organic through layered animation and secondary motion"
+  - "Joint rotations must respect anatomical limits"
+  - "Weight transfer follows physical laws"
+  - "Counter-rotations maintain balance"
+
+  # SPRING PHYSICS AND SECONDARY MOTION
+  - "Spring dynamics create natural acceleration/deceleration curves"
+  - "Secondary motion adds organic follow-through"
+  - "Noise functions add life but must feel intentional, not random"
+  - "Micro-movements distinguish living from mechanical"
+
+  # MANDATORY DOCUMENTATION
+  - "Every motion file MUST begin with detailed documentation"
+  - "Documentation must describe HOW the motion should FEEL"
+  - "Documentation must specify timing relationships between body parts"
+  - "Documentation must cite biomechanical or observational research basis"
+
+  # GRACEFUL DEGRADATION
   - "All motions must gracefully handle missing optional bones"
-  - "Performance is critical - updates must complete in under 2ms"
-  - "Physics-based spring dynamics create natural acceleration curves"
-  - "Micro-movements and noise add life to static poses"
+  - "Motion quality degrades gracefully, never fails abruptly"
+  - "hasBone() checks wrap all optional bone access"
 
 domain:
   entities:
@@ -28,13 +75,37 @@ domain:
         - paramsSchema
         - init
         - update
+      requirements:
+        - "Must have comprehensive JSDoc documentation at file top"
+        - "Documentation must describe the motion's feel and timing"
+        - "Documentation must specify phase relationships between body parts"
+        - "Must be fully deterministic given seed"
 
     bone:
       description: "A VRM humanoid bone that can be rotated"
       fields:
         - name
-        - rotation
+        - rotation (quaternion)
+        - position (local)
         - worldPosition
+        - scale
+      categories:
+        core: ["hips", "spine", "chest", "upperChest", "neck", "head"]
+        left_arm: ["leftShoulder", "leftUpperArm", "leftLowerArm", "leftHand"]
+        right_arm: ["rightShoulder", "rightUpperArm", "rightLowerArm", "rightHand"]
+        left_leg: ["leftUpperLeg", "leftLowerLeg", "leftFoot", "leftToes"]
+        right_leg: ["rightUpperLeg", "rightLowerLeg", "rightFoot", "rightToes"]
+        left_fingers: ["leftThumbProximal", "leftThumbIntermediate", "leftThumbDistal",
+                       "leftIndexProximal", "leftIndexIntermediate", "leftIndexDistal",
+                       "leftMiddleProximal", "leftMiddleIntermediate", "leftMiddleDistal",
+                       "leftRingProximal", "leftRingIntermediate", "leftRingDistal",
+                       "leftLittleProximal", "leftLittleIntermediate", "leftLittleDistal"]
+        right_fingers: ["rightThumbProximal", "rightThumbIntermediate", "rightThumbDistal",
+                        "rightIndexProximal", "rightIndexIntermediate", "rightIndexDistal",
+                        "rightMiddleProximal", "rightMiddleIntermediate", "rightMiddleDistal",
+                        "rightRingProximal", "rightRingIntermediate", "rightRingDistal",
+                        "rightLittleProximal", "rightLittleIntermediate", "rightLittleDistal"]
+        face: ["leftEye", "rightEye", "jaw"]
 
     rig:
       description: "The HumanoidRig API for safe bone manipulation"
@@ -43,77 +114,201 @@ domain:
         - addRotation
         - hasBone
         - setHipsPositionOffset
+        - getWorldPosition
+        - getRestPose
+      requirements:
+        - "Always check hasBone() before accessing optional bones"
+        - "Use addRotation for layered effects on same bone"
+        - "setHipsPositionOffset for root motion and bounce"
 
     motion_context:
       description: "Runtime context passed to motion update functions"
       fields:
-        - params
-        - state
-        - seed
-        - target
+        - params (validated parameters)
+        - state (persistent state between frames)
+        - seed (deterministic random seed)
+        - target (look-at and IK targets)
+
+    phase_envelope:
+      description: "Continuous phase function for overlapping motion"
+      fields:
+        - start_time
+        - peak_time
+        - end_time
+        - easing_in
+        - easing_out
+      requirements:
+        - "Envelopes should overlap for fluid motion"
+        - "Leading body parts peak before trailing parts"
+        - "Use smooth easing, never linear interpolation"
 
   signals:
+    motion_documentation:
+      description: "Comprehensive documentation at top of motion file"
+      extraction_hint: "Look for JSDoc block describing feel, timing, research basis"
+      requirements:
+        - "Must describe HOW the motion should FEEL (e.g., 'confident', 'nervous', 'seductive')"
+        - "Must specify timing relationships (e.g., 'shoulder leads elbow by ~50ms')"
+        - "Must cite research basis (biomechanics, observation, reference)"
+        - "Must list all bone categories engaged"
+
     bone_coverage:
-      description: "How many bones are actively animated in a motion"
-      extraction_hint: "Count unique bone names used in setRotation/addRotation calls"
+      description: "How many of the 69 VRM bones are actively considered"
+      extraction_hint: "Count unique bone names in setRotation/addRotation/hasBone calls"
+      requirements:
+        - "Core bones (6) must ALWAYS be animated"
+        - "Arm bones (8) must be animated in upper body motions"
+        - "Leg bones (8) must be animated in locomotion"
+        - "Finger bones (30) should be animated for expressiveness"
+        - "Face bones (3) should respond to emotional state"
 
-    transition_smoothness:
-      description: "Whether motion supports fluid start/stop"
-      extraction_hint: "Look for blend weights, fade in/out, or state-based transitions"
+    phase_overlap:
+      description: "Whether motion uses overlapping phase envelopes vs discrete states"
+      extraction_hint: "Look for phase functions, envelope overlaps, timing offsets between body parts"
+      requirements:
+        - "NO discrete state machines with abrupt transitions"
+        - "Body parts must have timing offsets (leading/trailing)"
+        - "Phase envelopes must overlap at transitions"
+        - "Breath phase must couple to relevant body parts"
 
-    physics_realism:
-      description: "Use of spring dynamics, secondary motion, noise"
-      extraction_hint: "Look for spring, noise, secondary motion, follow-through patterns"
+    anticipation_followthrough:
+      description: "Whether motion includes anticipation before and follow-through after"
+      extraction_hint: "Look for preparatory movements, overshoot, settle"
+      requirements:
+        - "Movements should be telegraphed before execution"
+        - "Fast movements need wind-up/anticipation"
+        - "Movements should overshoot slightly then settle"
+        - "Secondary motion continues after primary completes"
 
-    anatomical_accuracy:
-      description: "Biomechanically correct joint movements"
-      extraction_hint: "Check joint rotation axes, rotation limits, natural movement patterns"
+    weight_transfer:
+      description: "Realistic weight distribution and transfer"
+      extraction_hint: "Look for hip position offsets, leg loading, spine compensation"
+      requirements:
+        - "Weight shifts must propagate through kinetic chain"
+        - "Spine compensates for weight distribution"
+        - "Support leg loads when swing leg lifts"
+        - "Toes grip during weight bearing"
+
+    spring_dynamics:
+      description: "Use of spring physics for natural motion"
+      extraction_hint: "Look for spring creation, target setting, dt updates"
+      requirements:
+        - "Springs smooth all dynamic movements"
+        - "Different body parts use different spring constants"
+        - "Heavy parts (torso) are stiffer than light parts (fingers)"
+        - "Springs create natural acceleration curves"
+
+    secondary_motion:
+      description: "Follow-through and overlapping action"
+      extraction_hint: "Look for delayed responses, trailing movements, wobble"
+      requirements:
+        - "Fingers trail hand movement"
+        - "Hair/clothing would follow (even if not rendered)"
+        - "Flesh wobble on impact (subtle)"
+        - "Breath affects multiple body parts"
+
+    micro_movements:
+      description: "Subtle life-adding movements"
+      extraction_hint: "Look for noise functions, small oscillations, jitter"
+      requirements:
+        - "Static poses must have subtle movement"
+        - "Noise should feel organic, not random"
+        - "Micro-movements vary by emotional state"
+        - "Eyes never perfectly still"
 
   measures:
     bone_count:
       constraints:
-        - "Simple motions should use at least 10 bones"
-        - "Complex motions should use at least 25 bones"
-        - "Must include core bones: hips, spine, chest, neck, head"
+        - "Simple motions must animate at least 15 bones"
+        - "Medium motions must animate at least 30 bones"
+        - "Complex motions must animate at least 45 bones"
+        - "Core bones (hips, spine, chest, neck, head) are mandatory"
+        - "Face bones should be animated for emotional expression"
 
-    update_performance:
+    documentation_quality:
       constraints:
-        - "Update function must complete in under 2ms"
-        - "Avoid allocations in hot path"
-        - "Use pre-computed values where possible"
+        - "Motion file must start with comprehensive JSDoc"
+        - "Must describe the intended FEEL of the motion"
+        - "Must specify timing relationships between body parts"
+        - "Must document phase envelope overlaps"
+        - "Must cite research or observational basis"
+        - "Must list all bone categories engaged"
 
     quaternion_validity:
       constraints:
         - "All quaternions must be normalized"
         - "No NaN or Infinity values allowed"
         - "Rotations must be within anatomical limits"
+        - "Joint limits should be soft, not hard clamps"
+
+    phase_continuity:
+      constraints:
+        - "No discrete state machines with hard transitions"
+        - "Phase envelopes must overlap at transitions"
+        - "Body part timing must show natural delays"
+        - "Breath coupling must be present"
+
+    humanlike_quality:
+      constraints:
+        - "Motion must include anticipation before actions"
+        - "Motion must include follow-through after actions"
+        - "Weight transfer must be physically plausible"
+        - "Micro-movements must add life to static moments"
+        - "Overall motion must feel ALIVE, not mechanical"
 
 blocks:
   confident_stance:
     type: function
-    description: "Power pose with subtle breathing and weight shifts - uses all available bones"
+    description: |
+      Power pose with commanding presence. Weight evenly distributed or slightly forward.
+      Chest open, shoulders back but relaxed. Subtle assertive micro-movements.
+
+      FEEL: Grounded, assured, ready. Like a CEO about to address the board.
+
+      TIMING: Breath drives subtle chest expansion (4-5 second cycle). Weight micro-shifts
+      every 2-3 seconds. Eyes move with purpose, not darting. Fingers relaxed but not limp.
     path: "packages/motion-dsl/src/motions/confident-stance.ts"
     inputs:
       - name: rig
         type: entity.rig
-        description: "VRM humanoid rig"
+        description: "VRM humanoid rig with all bone access"
       - name: ctx
         type: entity.motion_context
-        description: "Motion runtime context"
+        description: "Motion runtime context with params and seed"
     outputs:
       - name: pose
         type: entity.motion_program
-        measures: [bone_count, update_performance, quaternion_validity]
+        measures: [bone_count, documentation_quality, quaternion_validity, humanlike_quality]
         constraints:
-          - "Must animate spine chain for posture"
-          - "Must include subtle breathing oscillation"
-          - "Must add micro-movement noise layer"
-          - "Should animate fingers if available"
-          - "Should animate eyes if available"
+          - "DOCUMENTATION: Must have detailed JSDoc describing confident body language"
+          - "CORE: Spine chain must show upright confident posture"
+          - "CORE: Hips stable with micro weight shifts"
+          - "BREATH: Deep, slow breathing (4-5 second cycle)"
+          - "BREATH: Chest expands on inhale, shoulders rise slightly"
+          - "ARMS: Relaxed at sides or hands loosely clasped"
+          - "ARMS: Subtle forearm rotation with breath"
+          - "HANDS: Fingers relaxed but with presence, not limp"
+          - "HANDS: All 30 finger bones should have subtle curl"
+          - "LEGS: Weight distributed evenly or slightly forward"
+          - "LEGS: Knees not locked, micro-flex"
+          - "FEET: Toes engaged, gripping ground subtly"
+          - "HEAD: Chin slightly elevated, gaze forward"
+          - "EYES: Purposeful movement, slow blinks"
+          - "JAW: Relaxed but closed"
+          - "MICRO: Noise layer on all bones for life"
 
   nervous_fidget:
     type: function
-    description: "Anxiety-driven fidgeting with weight shifts and self-soothing gestures"
+    description: |
+      Anxiety-driven fidgeting with involuntary self-soothing behaviors.
+      Weight shifts irregularly. Hands seek comfort (touching face, arms, clothing).
+      Shallow rapid breathing. Hypervigilant eye movement.
+
+      FEEL: Uncomfortable, restless, seeking escape. Like waiting for bad news.
+
+      TIMING: Breath is faster (2-3 second shallow cycles). Weight shifts are IRREGULAR
+      (not sine waves - use turbulence). Fidget gestures happen in bursts with quiet
+      periods. Eyes dart quickly, then lock, then dart again.
     path: "packages/motion-dsl/src/motions/nervous-fidget.ts"
     inputs:
       - name: rig
@@ -123,17 +318,49 @@ blocks:
     outputs:
       - name: pose
         type: entity.motion_program
-        measures: [bone_count, update_performance, quaternion_validity]
+        measures: [bone_count, documentation_quality, quaternion_validity, phase_continuity, humanlike_quality]
         constraints:
-          - "Must show tension in shoulders and neck"
-          - "Must include irregular weight shifting"
-          - "Must animate hands/fingers for fidgeting"
-          - "Should include rapid eye movement if available"
-          - "Breathing should be shallow and faster"
+          - "DOCUMENTATION: Must describe anxiety body language research basis"
+          - "CORE: Hunched protective posture, shoulders elevated"
+          - "CORE: Forward head posture (hypervigilance)"
+          - "BREATH: Shallow, fast, irregular (2-3 second cycles)"
+          - "BREATH: Shoulders rise with anxious breath"
+          - "WEIGHT: IRREGULAR shifts using turbulence, not sine waves"
+          - "WEIGHT: Ready-to-flee stance"
+          - "ARMS: Held close to body (self-protection)"
+          - "ARMS: Frequent self-touch gestures (neck, arms, face)"
+          - "HANDS: Tense, curled fingers"
+          - "HANDS: Rubbing, picking, clasping gestures"
+          - "HANDS: All finger joints animated during fidgets"
+          - "LEGS: Weight shifting, foot tapping bursts"
+          - "FEET: Toes tapping or curled with tension"
+          - "HEAD: Quick darting looks, then freeze, then dart"
+          - "EYES: Rapid saccades, wide, frequent blinks"
+          - "JAW: Clenched with occasional release"
+          - "TIMING: Fidget BURSTS not continuous"
+          - "TIMING: Quiet moments between fidget clusters"
 
   smoking_cigarette:
     type: function
-    description: "Complete smoking animation with hand-to-mouth, inhale, exhale phases"
+    description: |
+      Complete smoking animation with naturalistic hand-to-mouth coordination.
+      NOT a state machine - overlapping phase envelopes for each body part.
+
+      FEEL: Depends on style param. Casual = relaxed habit. Stressed = need for relief.
+      Seductive = deliberate, slow, eye contact maintained.
+
+      TIMING RELATIONSHIPS:
+      - Shoulder rotation BEGINS first (leads by ~80ms)
+      - Elbow extension follows (~50ms after shoulder)
+      - Wrist rotation follows (~30ms after elbow)
+      - Fingers adjust grip throughout
+      - Inhale: chest expands, shoulders rise, eyes squint
+      - Hold: brief stillness, smoke held
+      - Exhale: jaw opens, head may tilt, slow breath out
+      - Lower: reverse order (wrist leads, shoulder follows)
+
+      CRITICAL: Hand MUST reach mouth accurately. This requires end-effector
+      targeting, not blind rotation values.
     path: "packages/motion-dsl/src/motions/smoking-cigarette.ts"
     inputs:
       - name: rig
@@ -143,19 +370,51 @@ blocks:
     outputs:
       - name: pose
         type: entity.motion_program
-        measures: [bone_count, update_performance, quaternion_validity]
+        measures: [bone_count, documentation_quality, quaternion_validity, phase_continuity, humanlike_quality]
         constraints:
-          - "Must implement state machine: idle, bring_to_mouth, inhale, hold, exhale, lower, ash_tap"
-          - "Must use precise finger positioning for cigarette grip"
-          - "Must coordinate breathing with inhale/exhale phases"
-          - "Must use spring physics for arm movement"
-          - "Must include secondary motion on fingers"
-          - "Should squint eyes during inhale if available"
-          - "Should animate jaw during exhale if available"
+          - "DOCUMENTATION: Must describe smoking biomechanics and timing offsets"
+          - "PHASE ENVELOPES: NO discrete state machine"
+          - "PHASE ENVELOPES: Shoulder, elbow, wrist have OVERLAPPING phases"
+          - "PHASE ENVELOPES: Shoulder LEADS, wrist TRAILS"
+          - "ANTICIPATION: Body telegraphs before arm rises"
+          - "ANTICIPATION: Weight shifts before arm movement"
+          - "ARM TRAJECTORY: Curved natural path, not linear"
+          - "ARM TRAJECTORY: Spring-smoothed with overshoot/settle"
+          - "HAND POSITION: Must accurately reach mouth (needs IK or precise targeting)"
+          - "FINGERS: Precise cigarette grip (index + middle pinch)"
+          - "FINGERS: Subtle adjustments throughout"
+          - "INHALE: Chest expands, shoulders rise"
+          - "INHALE: Eyes squint slightly"
+          - "INHALE: Cheeks may hollow (jaw bone)"
+          - "HOLD: Brief stillness, micro-tension"
+          - "EXHALE: Jaw opens, lips purse"
+          - "EXHALE: Head may tilt up or to side"
+          - "EXHALE: Slow controlled breath"
+          - "LOWER: Wrist leads, shoulder follows (opposite of raise)"
+          - "LOWER: Follow-through past rest position, then settle"
+          - "SUPPORT ARM: Crossed under, or relaxed at side"
+          - "BREATH: Couples to entire motion cycle"
+          - "STYLE: Casual/Stressed/Seductive affect ALL timing"
 
   seductive_walk:
     type: function
-    description: "Runway-style walk with exaggerated hip sway and fluid arm movement"
+    description: |
+      Runway-style walk with exaggerated hip sway and fluid full-body coordination.
+      Every step is a performance. Weight transfer is deliberate and visible.
+
+      FEEL: Confident, alluring, aware of being watched. Like a model on runway.
+
+      GAIT CYCLE TIMING:
+      - Hips lead the motion (lateral sway peaks at mid-stance)
+      - Spine counter-rotates to balance hip sway
+      - Shoulders counter-rotate opposite to hips
+      - Arms swing opposite to legs with DELAY (secondary motion)
+      - Wrists trail arms, fingers trail wrists
+      - Head stays relatively stable (vestibular reflex)
+      - Eyes can flirt with "audience"
+
+      CROSSOVER: Feet cross midline for exaggerated hip motion.
+      Each step places foot slightly past center.
     path: "packages/motion-dsl/src/motions/seductive-walk.ts"
     inputs:
       - name: rig
@@ -165,19 +424,47 @@ blocks:
     outputs:
       - name: pose
         type: entity.motion_program
-        measures: [bone_count, update_performance, quaternion_validity]
+        measures: [bone_count, documentation_quality, quaternion_validity, phase_continuity, humanlike_quality]
         constraints:
-          - "Must implement full gait cycle with proper phase timing"
-          - "Must include hip sway with spine counter-rotation"
-          - "Must animate all leg bones including toes if available"
-          - "Must include fluid arm swing with wrist rotation"
-          - "Must keep head stable with slight tilt"
-          - "Should use crossover step pattern"
-          - "Should include secondary motion for follow-through"
+          - "DOCUMENTATION: Must describe runway walk biomechanics"
+          - "DOCUMENTATION: Must specify timing delays between body parts"
+          - "GAIT: Full cycle with stance/swing phases per leg"
+          - "GAIT: Crossover step pattern (feet cross midline)"
+          - "HIPS: Exaggerated lateral sway, hip drop on swing side"
+          - "HIPS: Forward pelvic tilt for posture"
+          - "HIPS: Twist opposite to shoulders"
+          - "SPINE: Counter-rotation balances hip sway"
+          - "SPINE: S-curve through spine chain"
+          - "SHOULDERS: Counter-rotate opposite to hips"
+          - "SHOULDERS: Drop with arm swing"
+          - "ARMS: Fluid swing with DELAY (secondary motion)"
+          - "ARMS: Wrist trails elbow"
+          - "HANDS: Graceful, slightly spread fingers"
+          - "HANDS: Wrist rotation adds elegance"
+          - "LEGS: Full hip/knee/ankle coordination"
+          - "LEGS: Toe point during swing phase"
+          - "FEET: Heel-toe roll, slight turn out"
+          - "TOES: Point during swing, grip during stance"
+          - "HEAD: Stable (vestibular reflex) with slight tilt"
+          - "HEAD: Can include flirtatious glances"
+          - "EYES: Confident forward gaze, slow blinks"
+          - "BREATH: Couples to gait cycle"
+          - "WEIGHT: Visible transfer, hip bounce"
 
   contemplative_lean:
     type: function
-    description: "Thoughtful asymmetric pose with weight on one leg and thinking gestures"
+    description: |
+      Thoughtful asymmetric pose with weight on one leg and self-reflective gestures.
+      Multiple variants: chin rest, crossed arms, akimbo, hand on hip.
+
+      FEEL: Lost in thought, processing something, introspective. Like solving a puzzle.
+
+      TIMING: Very slow micro-movements. Breath is deep and slow (5-6 seconds).
+      Thinking gestures are deliberate, not fidgety. Weight shifts are rare and slow.
+      Eyes have "distant" quality - not tracking environment.
+
+      ASYMMETRY: Weight mostly on one leg. Opposite hip drops. Spine curves.
+      Arms break symmetry with gesture variant.
     path: "packages/motion-dsl/src/motions/contemplative-lean.ts"
     inputs:
       - name: rig
@@ -187,16 +474,58 @@ blocks:
     outputs:
       - name: pose
         type: entity.motion_program
-        measures: [bone_count, update_performance, quaternion_validity]
+        measures: [bone_count, documentation_quality, quaternion_validity, phase_continuity, humanlike_quality]
         constraints:
-          - "Must implement asymmetric weight distribution"
-          - "Must include hand-to-chin or crossed arms pose"
-          - "Must animate all finger bones for detailed hand pose"
-          - "Must include slow contemplative breathing"
-          - "Must add subtle weight shift micro-movements"
-          - "Should include thinking gestures (head tilt, eye movement)"
-          - "Should support multiple pose variants via parameters"
+          - "DOCUMENTATION: Must describe contemplative body language"
+          - "DOCUMENTATION: Must specify pose variants and their meanings"
+          - "ASYMMETRY: Clear weight distribution (one leg dominant)"
+          - "ASYMMETRY: Hip drop on non-weight side"
+          - "ASYMMETRY: Spine S-curve to balance"
+          - "VARIANTS: chin_rest, crossed_arms, akimbo, hand_on_hip"
+          - "VARIANTS: Each has specific arm/hand configuration"
+          - "BREATH: Deep, slow (5-6 second cycles)"
+          - "BREATH: Visible chest expansion"
+          - "GESTURES: Thinking micro-movements (chin tap, lip touch)"
+          - "GESTURES: Very slow and deliberate"
+          - "GESTURES: Phase envelopes for gesture timing"
+          - "HANDS: Detailed finger pose per variant"
+          - "HANDS: Subtle finger adjustments"
+          - "LEGS: Weight leg straight-ish, relaxed leg bent"
+          - "FEET: Weight foot flat, relaxed foot on ball"
+          - "HEAD: Tilted slightly, distant gaze angle"
+          - "EYES: Slow movement, distant focus"
+          - "EYES: Slow, contemplative blinks"
+          - "JAW: Relaxed, occasional subtle movement"
+          - "MICRO: Very slow noise layer (meditative)"
+          - "TRANSITIONS: Smooth between gesture variants"
 
 validators:
   - schema
   - domain
+
+# FUTURE ADDITIONS (documented for roadmap):
+#
+# packages/critic/ - Motion quality scoring
+#   - foot_skate_ratio: stance foot velocity during contact
+#   - ground_penetration: frames where feet go below ground
+#   - jerk_smoothness: per-joint angular jerk (lower = smoother)
+#   - pose_plausibility: distance from natural pose distribution
+#   - timing_naturalness: velocity profile analysis
+#
+# packages/planner/ - High-level motion planning
+#   - phase_envelopes: overlapping timing functions
+#   - end_effector_splines: hand/foot target paths
+#   - contact_schedules: when feet are planted
+#   - breath_coupling: how breath affects body parts
+#
+# packages/constraints/ - IK and physical constraints
+#   - two_bone_ik: fast analytic arm/leg IK
+#   - ccd_ik: iterative multi-bone IK
+#   - reach_targets: hand to face/object targets
+#   - look_at: head/eye targeting
+#   - foot_planting: soft pin with heel/toe rocker
+#
+# packages/autotune/ - Automatic parameter optimization
+#   - parameter_search: CMA-ES / Bayesian optimization
+#   - critic_optimization: maximize quality score
+#   - regression_detection: CI quality gates

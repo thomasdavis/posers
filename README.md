@@ -196,6 +196,259 @@ pnpm --filter @posers/viewer dev
 OPENAI_API_KEY="sk-..." pnpm --filter @posers/blocks validate:visual
 ```
 
+## Using Blocks for Testing & Validation
+
+Blocks is the validation system that ensures motion quality through automated visual analysis. It uses GPT-4o vision to analyze screenshots of your animations and verify they meet quality constraints.
+
+### How Blocks Works
+
+1. **Captures Screenshots** - Puppeteer loads your motion in a headless browser at specific time points (t=0.25s, t=1.0s, t=1.75s)
+2. **Sends to GPT-4o Vision** - Screenshots are analyzed by GPT-4o with motion-specific prompts
+3. **Scores Quality** - Returns a 0-100 score based on constraints defined in `blocks.yml`
+4. **Reports Issues** - Lists specific problems found (e.g., "arms in T-pose", "motion not fluid")
+
+### Running Visual Validation
+
+```bash
+# 1. Start the viewer (required - validator captures from this)
+pnpm --filter @posers/viewer dev &
+
+# 2. Run validation on all motions
+OPENAI_API_KEY="sk-..." pnpm --filter @posers/blocks validate:visual
+
+# Output example:
+# ═══════════════════════════════════════════════════════════
+#   BLOCKS VISUAL VALIDATOR (output.visual)
+# ═══════════════════════════════════════════════════════════
+#
+# Found 7 motion blocks to validate
+#
+#   Validating: confident_stance
+#     ✓ Score: 75/100 - Humanoid arms angled downward, animation working correctly
+#
+#   Validating: nervous_fidget
+#     ✓ Score: 80/100 - Motion shows appropriate fidgeting behavior
+#
+# ═══════════════════════════════════════════════════════════
+#   SUMMARY: 7 passed, 0 failed
+# ═══════════════════════════════════════════════════════════
+```
+
+### Understanding blocks.yml
+
+The `blocks.yml` file defines validation rules for each motion. Here's the structure:
+
+```yaml
+name: "Posers Motion Engine"
+root: "packages/motion-dsl/src/motions"
+
+# Global quality philosophy
+philosophy:
+  - "Human-like motion is the primary goal"
+  - "Use overlapping phase envelopes, NOT discrete state machines"
+  - "Every motion must consider ALL 69 VRM bones"
+  - "Motions must be anatomically accurate"
+
+# Visual validation settings
+visual_validation:
+  enabled: true
+  model: "gpt-4o"
+  viewer_url: "http://localhost:4100"
+  default_frames: 3
+  pass_threshold: 50  # Minimum score to pass (0-100)
+  checks:
+    - "Core bones (hips, spine, chest, neck, head) are visibly animated"
+    - "No limbs stuck in T-pose or unnatural positions"
+    - "Motion appears smooth and fluid"
+    - "Pose is anatomically plausible"
+
+# Individual motion definitions
+blocks:
+  confident_stance:
+    type: function
+    description: |
+      Power pose with commanding presence.
+      FEEL: Grounded, assured, ready. Like a CEO about to address the board.
+    path: "packages/motion-dsl/src/motions/confident-stance.ts"
+    outputs:
+      - name: pose
+        type: entity.motion_program
+        constraints:
+          - "CORE: Spine chain must show upright confident posture"
+          - "BREATH: Deep, slow breathing (4-5 second cycle)"
+          - "ARMS: Relaxed at sides, not in T-pose"
+          - "HEAD: Chin slightly elevated, gaze forward"
+```
+
+### Adding a New Motion to Blocks
+
+To enable visual validation for your motion, add it to `blocks.yml`:
+
+```yaml
+blocks:
+  # Use snake_case for the block name (matches motion ID with underscores)
+  my_awesome_motion:
+    type: function
+    description: |
+      Describe what this motion does and how it should FEEL.
+
+      FEEL: What emotion/attitude does this convey?
+
+      TIMING: Describe phase relationships between body parts.
+    path: "packages/motion-dsl/src/motions/my-awesome-motion.ts"
+    inputs:
+      - name: rig
+        type: entity.rig
+      - name: ctx
+        type: entity.motion_context
+    outputs:
+      - name: pose
+        type: entity.motion_program
+        measures: [bone_count, documentation_quality, quaternion_validity]
+        constraints:
+          # Be specific about what GPT-4o should check
+          - "ARMS: Must not be in T-pose (horizontal)"
+          - "ARMS: Should be relaxed at sides or in motion-appropriate position"
+          - "CORE: Spine should show [specific posture]"
+          - "BREATH: Visible chest movement"
+          - "TIMING: Motion should feel [smooth/snappy/fluid]"
+          - "[MOTION-SPECIFIC]: Add constraints unique to your motion"
+```
+
+### Constraint Writing Tips
+
+Write constraints that GPT-4o can visually verify:
+
+**Good constraints:**
+- "Arms angled downward at sides, not horizontal"
+- "Visible hip sway during walk cycle"
+- "Head tilted slightly to one side"
+- "One leg bent, weight on opposite leg"
+
+**Bad constraints (not visually verifiable):**
+- "Quaternions are normalized" (can't see math)
+- "Springs have correct damping" (internal state)
+- "Motion feels confident" (too subjective)
+
+### Debugging Failed Validations
+
+When a motion fails validation:
+
+1. **Check the screenshots** - Saved to `validation-output/screenshots/`
+   ```bash
+   ls validation-output/screenshots/
+   # my-motion_t0.25.png
+   # my-motion_t1.00.png
+   # my-motion_t1.75.png
+   ```
+
+2. **View the screenshots** - Open them to see what GPT-4o analyzed
+
+3. **Check the JSON results** - Detailed analysis in `validation-output/visual-validation.json`
+   ```json
+   {
+     "passed": 6,
+     "failed": 1,
+     "results": [
+       {
+         "valid": false,
+         "issues": [
+           {
+             "type": "error",
+             "code": "VISUAL_ISSUE",
+             "message": "[Frame 2] Humanoid arms are in T-pose"
+           }
+         ],
+         "context": {
+           "summary": "Score: 45/100 - Arms stuck in T-pose"
+         }
+       }
+     ]
+   }
+   ```
+
+4. **Common issues and fixes:**
+
+   | Issue | Cause | Fix |
+   |-------|-------|-----|
+   | "Arms in T-pose" | Missing arm rotation | Add `armDown = 1.2` rotation on Z-axis |
+   | "Motion not smooth" | No spring physics | Use `createSpring()` for dynamic values |
+   | "Pose not natural" | Missing secondary motion | Add micro-movements, breath coupling |
+   | "Limbs frozen" | Bone not being updated | Check `hasBone()` and `setRotation()` calls |
+
+### Development Workflow with Blocks
+
+**Recommended workflow for building new motions:**
+
+```bash
+# 1. Create your motion file
+# packages/motion-dsl/src/motions/my-motion.ts
+
+# 2. Export it from index
+# packages/motion-dsl/src/motions/index.ts
+
+# 3. Build the package
+pnpm --filter @posers/motion-dsl build
+
+# 4. Preview in viewer (keep this running)
+pnpm --filter @posers/viewer dev
+
+# 5. Add to blocks.yml with constraints
+
+# 6. Run validation to check quality
+OPENAI_API_KEY="sk-..." pnpm --filter @posers/blocks validate:visual
+
+# 7. If it fails, check screenshots and fix issues
+open validation-output/screenshots/
+
+# 8. Rebuild and re-validate until it passes
+pnpm --filter @posers/motion-dsl build
+OPENAI_API_KEY="sk-..." pnpm --filter @posers/blocks validate:visual
+
+# 9. Commit when all validations pass
+git add -A && git commit -m "Add my-motion with blocks validation"
+```
+
+### Validation Endpoint
+
+The viewer exposes a special endpoint for headless validation:
+
+```
+GET /validate/[motion-id]?t=0.5&skeleton=true
+```
+
+Parameters:
+- `motion-id`: The motion ID in kebab-case (e.g., `confident-stance`)
+- `t`: Time in seconds to capture (default: 0)
+- `skeleton`: Show skeleton overlay (default: false)
+
+You can test this manually:
+```bash
+# Open in browser while viewer is running
+open "http://localhost:4100/validate/confident-stance?t=1.0&skeleton=true"
+```
+
+### Custom Validation Checks
+
+You can add custom checks to `visual_validation.checks` in `blocks.yml`:
+
+```yaml
+visual_validation:
+  checks:
+    # Global checks applied to ALL motions
+    - "Core bones (hips, spine, chest, neck, head) are visibly animated"
+    - "No limbs stuck in T-pose or unnatural positions"
+    - "Motion appears smooth and fluid"
+    - "Pose is anatomically plausible"
+    - "Weight distribution looks natural"
+
+    # Add your own global checks
+    - "Fingers are not rigidly straight"
+    - "Eyes are not staring blankly ahead"
+```
+
+Per-motion constraints in the `blocks:` section are combined with these global checks.
+
 ## Core Concepts
 
 ### VRM Bone Conventions

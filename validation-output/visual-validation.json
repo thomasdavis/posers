@@ -1,0 +1,373 @@
+{
+  "passed": 7,
+  "failed": 0,
+  "results": [
+    {
+      "valid": true,
+      "issues": [
+        {
+          "type": "error",
+          "code": "VISUAL_ISSUE",
+          "message": "[Frame 1] Humanoid arms are in T-pose.",
+          "suggestion": "Constraint: 2"
+        },
+        {
+          "type": "error",
+          "code": "VISUAL_ISSUE",
+          "message": "[Frame 2] Humanoid arms are in T-pose.",
+          "suggestion": "Constraint: 2"
+        },
+        {
+          "type": "error",
+          "code": "VISUAL_ISSUE",
+          "message": "[Frame 3] Humanoid arms are in T-pose.",
+          "suggestion": "Constraint: 2"
+        }
+      ],
+      "context": {
+        "filesAnalyzed": [
+          "packages/motion-dsl/src/motions/confident-stance.ts"
+        ],
+        "rulesApplied": [
+          "DOCUMENTATION: Must have detailed JSDoc describing confident body language",
+          "CORE: Spine chain must show upright confident posture",
+          "CORE: Hips stable with micro weight shifts",
+          "BREATH: Deep, slow breathing (4-5 second cycle)",
+          "BREATH: Chest expands on inhale, shoulders rise slightly",
+          "ARMS: Relaxed at sides or hands loosely clasped",
+          "ARMS: Subtle forearm rotation with breath",
+          "HANDS: Fingers relaxed but with presence, not limp",
+          "HANDS: All 30 finger bones should have subtle curl",
+          "LEGS: Weight distributed evenly or slightly forward",
+          "LEGS: Knees not locked, micro-flex",
+          "FEET: Toes engaged, gripping ground subtly",
+          "HEAD: Chin slightly elevated, gaze forward",
+          "EYES: Purposeful movement, slow blinks",
+          "JAW: Relaxed but closed",
+          "MICRO: Noise layer on all bones for life"
+        ],
+        "summary": "Score: 60/100 - The humanoid arms are in a T-pose, indicating the animation may not be working correctly."
+      },
+      "ai": {
+        "provider": "openai",
+        "model": "gpt-4o"
+      }
+    },
+    {
+      "valid": true,
+      "issues": [
+        {
+          "type": "info",
+          "code": "VISUAL_ISSUE",
+          "message": "[Frame 1] Humanoid arms are not in T-pose, slight downward angle observed.",
+          "suggestion": "Constraint: No limbs stuck in T-pose or unnatural positions"
+        },
+        {
+          "type": "info",
+          "code": "VISUAL_ISSUE",
+          "message": "[Frame 2] Humanoid arms maintain a downward angle, consistent with relaxed pose.",
+          "suggestion": "Constraint: No limbs stuck in T-pose or unnatural positions"
+        },
+        {
+          "type": "info",
+          "code": "VISUAL_ISSUE",
+          "message": "[Frame 3] Humanoid arms continue to show a downward angle.",
+          "suggestion": "Constraint: No limbs stuck in T-pose or unnatural positions"
+        }
+      ],
+      "context": {
+        "filesAnalyzed": [
+          "packages/motion-dsl/src/motions/nervous-fidget.ts"
+        ],
+        "rulesApplied": [
+          "DOCUMENTATION: Must describe anxiety body language research basis",
+          "CORE: Hunched protective posture, shoulders elevated",
+          "CORE: Forward head posture (hypervigilance)",
+          "BREATH: Shallow, fast, irregular (2-3 second cycles)",
+          "BREATH: Shoulders rise with anxious breath",
+          "WEIGHT: IRREGULAR shifts using turbulence, not sine waves",
+          "WEIGHT: Ready-to-flee stance",
+          "ARMS: Held close to body (self-protection)",
+          "ARMS: Frequent self-touch gestures (neck, arms, face)",
+          "HANDS: Tense, curled fingers",
+          "HANDS: Rubbing, picking, clasping gestures",
+          "HANDS: All finger joints animated during fidgets",
+          "LEGS: Weight shifting, foot tapping bursts",
+          "FEET: Toes tapping or curled with tension",
+          "HEAD: Quick darting looks, then freeze, then dart",
+          "EYES: Rapid saccades, wide, frequent blinks",
+          "JAW: Clenched with occasional release",
+          "TIMING: Fidget BURSTS not continuous",
+          "TIMING: Quiet moments between fidget clusters"
+        ],
+        "summary": "Score: 75/100 - The humanoid arms are angled slightly downward, indicating the animation is working correctly."
+      },
+      "ai": {
+        "provider": "openai",
+        "model": "gpt-4o"
+      }
+    },
+    {
+      "valid": true,
+      "issues": [
+        {
+          "type": "error",
+          "code": "VISUAL_ISSUE",
+          "message": "[Frame 2] Humanoid arms are perfectly horizontal, indicating a T-pose.",
+          "suggestion": "Constraint: 2"
+        },
+        {
+          "type": "error",
+          "code": "VISUAL_ISSUE",
+          "message": "[Frame 3] Humanoid arms remain in T-pose, suggesting animation issues.",
+          "suggestion": "Constraint: 2"
+        }
+      ],
+      "context": {
+        "filesAnalyzed": [
+          "packages/motion-dsl/src/motions/smoking-cigarette.ts"
+        ],
+        "rulesApplied": [
+          "DOCUMENTATION: Must describe smoking biomechanics and timing offsets",
+          "PHASE ENVELOPES: NO discrete state machine",
+          "PHASE ENVELOPES: Shoulder, elbow, wrist have OVERLAPPING phases",
+          "PHASE ENVELOPES: Shoulder LEADS, wrist TRAILS",
+          "ANTICIPATION: Body telegraphs before arm rises",
+          "ANTICIPATION: Weight shifts before arm movement",
+          "ARM TRAJECTORY: Curved natural path, not linear",
+          "ARM TRAJECTORY: Spring-smoothed with overshoot/settle",
+          "HAND POSITION: Must accurately reach mouth (needs IK or precise targeting)",
+          "FINGERS: Precise cigarette grip (index + middle pinch)",
+          "FINGERS: Subtle adjustments throughout",
+          "INHALE: Chest expands, shoulders rise",
+          "INHALE: Eyes squint slightly",
+          "INHALE: Cheeks may hollow (jaw bone)",
+          "HOLD: Brief stillness, micro-tension",
+          "EXHALE: Jaw opens, lips purse",
+          "EXHALE: Head may tilt up or to side",
+          "EXHALE: Slow controlled breath",
+          "LOWER: Wrist leads, shoulder follows (opposite of raise)",
+          "LOWER: Follow-through past rest position, then settle",
+          "SUPPORT ARM: Crossed under, or relaxed at side",
+          "BREATH: Couples to entire motion cycle",
+          "STYLE: Casual/Stressed/Seductive affect ALL timing"
+        ],
+        "summary": "Score: 60/100 - The humanoid arms are in a T-pose, indicating the animation may not be working correctly."
+      },
+      "ai": {
+        "provider": "openai",
+        "model": "gpt-4o"
+      }
+    },
+    {
+      "valid": true,
+      "issues": [
+        {
+          "type": "error",
+          "code": "VISUAL_ISSUE",
+          "message": "[Frame 1] Humanoid arms are in T-pose.",
+          "suggestion": "Constraint: 2"
+        },
+        {
+          "type": "error",
+          "code": "VISUAL_ISSUE",
+          "message": "[Frame 2] Humanoid arms are in T-pose.",
+          "suggestion": "Constraint: 2"
+        },
+        {
+          "type": "error",
+          "code": "VISUAL_ISSUE",
+          "message": "[Frame 3] Humanoid arms are in T-pose.",
+          "suggestion": "Constraint: 2"
+        }
+      ],
+      "context": {
+        "filesAnalyzed": [
+          "packages/motion-dsl/src/motions/seductive-walk.ts"
+        ],
+        "rulesApplied": [
+          "DOCUMENTATION: Must describe runway walk biomechanics",
+          "DOCUMENTATION: Must specify timing delays between body parts",
+          "GAIT: Full cycle with stance/swing phases per leg",
+          "GAIT: Crossover step pattern (feet cross midline)",
+          "HIPS: Exaggerated lateral sway, hip drop on swing side",
+          "HIPS: Forward pelvic tilt for posture",
+          "HIPS: Twist opposite to shoulders",
+          "SPINE: Counter-rotation balances hip sway",
+          "SPINE: S-curve through spine chain",
+          "SHOULDERS: Counter-rotate opposite to hips",
+          "SHOULDERS: Drop with arm swing",
+          "ARMS: Fluid swing with DELAY (secondary motion)",
+          "ARMS: Wrist trails elbow",
+          "HANDS: Graceful, slightly spread fingers",
+          "HANDS: Wrist rotation adds elegance",
+          "LEGS: Full hip/knee/ankle coordination",
+          "LEGS: Toe point during swing phase",
+          "FEET: Heel-toe roll, slight turn out",
+          "TOES: Point during swing, grip during stance",
+          "HEAD: Stable (vestibular reflex) with slight tilt",
+          "HEAD: Can include flirtatious glances",
+          "EYES: Confident forward gaze, slow blinks",
+          "BREATH: Couples to gait cycle",
+          "WEIGHT: Visible transfer, hip bounce"
+        ],
+        "summary": "Score: 65/100 - The humanoid arms are in a T-pose, indicating the animation may not be working correctly."
+      },
+      "ai": {
+        "provider": "openai",
+        "model": "gpt-4o"
+      }
+    },
+    {
+      "valid": true,
+      "issues": [
+        {
+          "type": "info",
+          "code": "VISUAL_ISSUE",
+          "message": "[Frame 1] Humanoid arms are not in T-pose.",
+          "suggestion": "Constraint: 2"
+        },
+        {
+          "type": "info",
+          "code": "VISUAL_ISSUE",
+          "message": "[Frame 2] Humanoid arms are not in T-pose.",
+          "suggestion": "Constraint: 2"
+        },
+        {
+          "type": "info",
+          "code": "VISUAL_ISSUE",
+          "message": "[Frame 3] Humanoid arms are not in T-pose.",
+          "suggestion": "Constraint: 2"
+        }
+      ],
+      "context": {
+        "filesAnalyzed": [
+          "packages/motion-dsl/src/motions/contemplative-lean.ts"
+        ],
+        "rulesApplied": [
+          "DOCUMENTATION: Must describe contemplative body language",
+          "DOCUMENTATION: Must specify pose variants and their meanings",
+          "ASYMMETRY: Clear weight distribution (one leg dominant)",
+          "ASYMMETRY: Hip drop on non-weight side",
+          "ASYMMETRY: Spine S-curve to balance",
+          "VARIANTS: chin_rest, crossed_arms, akimbo, hand_on_hip",
+          "VARIANTS: Each has specific arm/hand configuration",
+          "BREATH: Deep, slow (5-6 second cycles)",
+          "BREATH: Visible chest expansion",
+          "GESTURES: Thinking micro-movements (chin tap, lip touch)",
+          "GESTURES: Very slow and deliberate",
+          "GESTURES: Phase envelopes for gesture timing",
+          "HANDS: Detailed finger pose per variant",
+          "HANDS: Subtle finger adjustments",
+          "LEGS: Weight leg straight-ish, relaxed leg bent",
+          "FEET: Weight foot flat, relaxed foot on ball",
+          "HEAD: Tilted slightly, distant gaze angle",
+          "EYES: Slow movement, distant focus",
+          "EYES: Slow, contemplative blinks",
+          "JAW: Relaxed, occasional subtle movement",
+          "MICRO: Very slow noise layer (meditative)",
+          "TRANSITIONS: Smooth between gesture variants"
+        ],
+        "summary": "Score: 75/100 - The humanoid arms are angled slightly downward, indicating the animation is working correctly."
+      },
+      "ai": {
+        "provider": "openai",
+        "model": "gpt-4o"
+      }
+    },
+    {
+      "valid": true,
+      "issues": [
+        {
+          "type": "warning",
+          "code": "VISUAL_ISSUE",
+          "message": "[Frame 3] Humanoid arms are in a T-pose.",
+          "suggestion": "Constraint: 2"
+        }
+      ],
+      "context": {
+        "filesAnalyzed": [
+          "packages/motion-dsl/src/motions/jump.ts"
+        ],
+        "rulesApplied": [
+          "DOCUMENTATION: Must describe jump biomechanics and phases",
+          "ANTICIPATION: Squat with hip/knee/ankle flexion",
+          "ANTICIPATION: Arms swing back, weight shifts forward",
+          "ANTICIPATION: Spine flexes slightly forward",
+          "TAKEOFF: Explosive triple extension (hip/knee/ankle)",
+          "TAKEOFF: Arms swing up for momentum",
+          "TAKEOFF: Toes last to leave ground",
+          "AIRBORNE: Body extends, slight back arch",
+          "AIRBORNE: Arms at peak height",
+          "AIRBORNE: Toes point downward",
+          "LANDING: Anticipatory leg flexion before contact",
+          "LANDING: Heel-toe contact, absorb through legs",
+          "LANDING: Arms swing forward for balance",
+          "LANDING: Spine flexes to absorb",
+          "HIPS: Vertical translation for root motion",
+          "BREATH: Couples to jump phases",
+          "TIMING: Phase envelopes must overlap"
+        ],
+        "summary": "Score: 75/100 - The humanoid arms are mostly in a relaxed pose, indicating the animation is working. However, the final frame shows a T-pose, suggesting a potential issue."
+      },
+      "ai": {
+        "provider": "openai",
+        "model": "gpt-4o"
+      }
+    },
+    {
+      "valid": true,
+      "issues": [
+        {
+          "type": "info",
+          "code": "VISUAL_ISSUE",
+          "message": "[Frame 1] Humanoid arms are not in T-pose.",
+          "suggestion": "Constraint: 2"
+        },
+        {
+          "type": "info",
+          "code": "VISUAL_ISSUE",
+          "message": "[Frame 2] Humanoid arms are angled downward.",
+          "suggestion": "Constraint: 2"
+        },
+        {
+          "type": "info",
+          "code": "VISUAL_ISSUE",
+          "message": "[Frame 3] Humanoid arms are in a relaxed pose.",
+          "suggestion": "Constraint: 2"
+        }
+      ],
+      "context": {
+        "filesAnalyzed": [
+          "packages/motion-dsl/src/motions/backflip.ts"
+        ],
+        "rulesApplied": [
+          "DOCUMENTATION: Must describe backflip biomechanics",
+          "DOCUMENTATION: Must specify rotation timing",
+          "ANTICIPATION: Deep squat, arms forward",
+          "ANTICIPATION: Eyes spot target behind",
+          "TAKEOFF: Explosive vertical jump",
+          "TAKEOFF: Arms swing overhead and back",
+          "TAKEOFF: Head throws back to initiate rotation",
+          "ROTATION: Tight tuck (knees to chest)",
+          "ROTATION: Arms wrap around shins",
+          "ROTATION: Full 360° rotation around lateral axis",
+          "ROTATION: Maintain tuck through apex",
+          "OPENING: Extend legs, spot landing",
+          "OPENING: Arms out for balance",
+          "LANDING: Absorb through legs",
+          "LANDING: Arms out for balance",
+          "HIPS: Parabolic trajectory (up, back, down)",
+          "HEAD: Tracks rotation, spots landing",
+          "TIMING: Precise phase envelopes",
+          "TIMING: Tuck timing critical for rotation speed"
+        ],
+        "summary": "Score: 85/100 - The humanoid arms are angled downward in the frames, indicating the animation is working correctly."
+      },
+      "ai": {
+        "provider": "openai",
+        "model": "gpt-4o"
+      }
+    }
+  ]
+}

@@ -5,6 +5,8 @@ export * from './nervous-fidget'
 export * from './smoking-cigarette'
 export * from './seductive-walk'
 export * from './contemplative-lean'
+export * from './jump'
+export * from './backflip'
 
 import { idleBreathe, createIdleBreathe, idleBreatheMeta, idleBreatheParamsSchema } from './idle-breathe'
 import { basicWalk, createBasicWalk, basicWalkMeta, basicWalkParamsSchema } from './basic-walk'
@@ -13,6 +15,8 @@ import { nervousFidget, createNervousFidget, nervousFidgetMeta, nervousFidgetPar
 import { smokingCigarette, createSmokingCigarette, smokingCigaretteMeta, smokingCigaretteParamsSchema } from './smoking-cigarette'
 import { seductiveWalk, createSeductiveWalk, seductiveWalkMeta, seductiveWalkParamsSchema } from './seductive-walk'
 import { contemplativeLean, createContemplativeLean, contemplativeLeanMeta, contemplativeLeanParamsSchema } from './contemplative-lean'
+import { jump, createJump, jumpMeta, jumpParamsSchema } from './jump'
+import { backflip, createBackflip, backflipMeta, backflipParamsSchema } from './backflip'
 import type { MotionProgram } from '@posers/core'
 
 /**
@@ -60,6 +64,18 @@ export const motionRegistry = {
     paramsSchema: contemplativeLeanParamsSchema,
     create: createContemplativeLean,
     default: contemplativeLean,
+  },
+  'jump': {
+    meta: jumpMeta,
+    paramsSchema: jumpParamsSchema,
+    create: createJump,
+    default: jump,
+  },
+  'backflip': {
+    meta: backflipMeta,
+    paramsSchema: backflipParamsSchema,
+    create: createBackflip,
+    default: backflip,
   },
 } as const
 

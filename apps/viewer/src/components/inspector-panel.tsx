@@ -304,20 +304,24 @@ export function InspectorPanel({ vrm, motion, time }: InspectorPanelProps) {
           </>
         )}
 
-        {activeTab === 'meta' && meta && (
+        {activeTab === 'meta' && meta && (() => {
+          // Cast to any to handle VRM0 vs VRM1 meta differences
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          const m = meta as any
+          return (
           <div style={{ fontSize: '0.75rem' }}>
             <div style={{ marginBottom: '1rem' }}>
               <div className="text-xs" style={{ color: '#888', marginBottom: '0.25rem' }}>
                 Model Info
               </div>
               <div style={{ padding: '0.5rem', background: '#1a1a1a', borderRadius: '0.375rem' }}>
-                <div><span style={{ color: '#888' }}>Name:</span> {meta.name || 'Unknown'}</div>
-                <div><span style={{ color: '#888' }}>Version:</span> {meta.version || 'Unknown'}</div>
-                {meta.authors && meta.authors.length > 0 && (
-                  <div><span style={{ color: '#888' }}>Authors:</span> {meta.authors.join(', ')}</div>
+                <div><span style={{ color: '#888' }}>Name:</span> {m.name || 'Unknown'}</div>
+                <div><span style={{ color: '#888' }}>Version:</span> {m.version || 'Unknown'}</div>
+                {Array.isArray(m.authors) && m.authors.length > 0 && (
+                  <div><span style={{ color: '#888' }}>Authors:</span> {m.authors.join(', ')}</div>
                 )}
-                {meta.copyrightInformation && (
-                  <div><span style={{ color: '#888' }}>Copyright:</span> {meta.copyrightInformation}</div>
+                {m.copyrightInformation && (
+                  <div><span style={{ color: '#888' }}>Copyright:</span> {m.copyrightInformation}</div>
                 )}
               </div>
             </div>
@@ -327,26 +331,26 @@ export function InspectorPanel({ vrm, motion, time }: InspectorPanelProps) {
                 License
               </div>
               <div style={{ padding: '0.5rem', background: '#1a1a1a', borderRadius: '0.375rem' }}>
-                <div><span style={{ color: '#888' }}>License:</span> {meta.licenseName || 'Not specified'}</div>
-                {meta.allowExcessivelyViolentUsage !== undefined && (
+                <div><span style={{ color: '#888' }}>License:</span> {m.licenseName || 'Not specified'}</div>
+                {m.allowExcessivelyViolentUsage !== undefined && (
                   <div>
                     <span style={{ color: '#888' }}>Violence:</span>{' '}
-                    {meta.allowExcessivelyViolentUsage ? '✓ Allowed' : '✗ Not allowed'}
+                    {m.allowExcessivelyViolentUsage ? '✓ Allowed' : '✗ Not allowed'}
                   </div>
                 )}
-                {meta.allowExcessivelySexualUsage !== undefined && (
+                {m.allowExcessivelySexualUsage !== undefined && (
                   <div>
                     <span style={{ color: '#888' }}>Sexual:</span>{' '}
-                    {meta.allowExcessivelySexualUsage ? '✓ Allowed' : '✗ Not allowed'}
+                    {m.allowExcessivelySexualUsage ? '✓ Allowed' : '✗ Not allowed'}
                   </div>
                 )}
-                {meta.commercialUsage && (
-                  <div><span style={{ color: '#888' }}>Commercial:</span> {meta.commercialUsage}</div>
+                {m.commercialUsage && (
+                  <div><span style={{ color: '#888' }}>Commercial:</span> {m.commercialUsage}</div>
                 )}
-                {meta.allowRedistribution !== undefined && (
+                {m.allowRedistribution !== undefined && (
                   <div>
                     <span style={{ color: '#888' }}>Redistribution:</span>{' '}
-                    {meta.allowRedistribution ? '✓ Allowed' : '✗ Not allowed'}
+                    {m.allowRedistribution ? '✓ Allowed' : '✗ Not allowed'}
                   </div>
                 )}
               </div>
@@ -370,7 +374,8 @@ export function InspectorPanel({ vrm, motion, time }: InspectorPanelProps) {
               </div>
             </div>
           </div>
-        )}
+          )
+        })()}
 
         {activeTab === 'expressions' && (
           <div style={{ fontSize: '0.75rem' }}>

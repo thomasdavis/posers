@@ -155,12 +155,15 @@ export function createBasicWalk(params: BasicWalkInput = {}): MotionProgram<Basi
 
       const armSwingAngle = 0.5 * armSwing * strideLength
 
+      // Base arm-down from T-pose: ~70° (1.2 rad) with mirrored Z axis
+      const armDownBase = 1.2
+
       // Left arm swings opposite to left leg
       if (rig.hasBone('leftUpperArm')) {
         const leftArmSwing = -leftOsc * armSwingAngle
-        const leftArmRot = quatFromAxisAngle({ x: 1, y: 0, z: 0 }, leftArmSwing)
-        // Slight outward rotation
-        leftArmRot.multiply(quatFromAxisAngle({ x: 0, y: 0, z: 1 }, 0.1))
+        // Left arm: negative Z brings arm down
+        const leftArmRot = quatFromAxisAngle({ x: 0, y: 0, z: 1 }, -armDownBase)
+        leftArmRot.multiply(quatFromAxisAngle({ x: 1, y: 0, z: 0 }, leftArmSwing))
         rig.setRotation('leftUpperArm', leftArmRot)
       }
 
@@ -174,8 +177,9 @@ export function createBasicWalk(params: BasicWalkInput = {}): MotionProgram<Basi
       // Right arm swings opposite to right leg
       if (rig.hasBone('rightUpperArm')) {
         const rightArmSwing = -rightOsc * armSwingAngle
-        const rightArmRot = quatFromAxisAngle({ x: 1, y: 0, z: 0 }, rightArmSwing)
-        rightArmRot.multiply(quatFromAxisAngle({ x: 0, y: 0, z: 1 }, -0.1))
+        // Right arm: positive Z brings arm down
+        const rightArmRot = quatFromAxisAngle({ x: 0, y: 0, z: 1 }, armDownBase)
+        rightArmRot.multiply(quatFromAxisAngle({ x: 1, y: 0, z: 0 }, rightArmSwing))
         rig.setRotation('rightUpperArm', rightArmRot)
       }
 

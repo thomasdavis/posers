@@ -48,6 +48,16 @@ export function createIdleBreathe(params: IdleBreatheInput = {}): MotionProgram<
     update(rig: HumanoidRig, ctx: MotionContext, t: number, _dt: number): void {
       const { breathRate, intensity, headSway, shoulderMovement } = validatedParams
 
+      // Base arm positioning: bring arms from T-pose to relaxed at sides
+      // VRM normalized bones have mirrored Z axes for left/right
+      const armDownFromTpose = 1.2  // ~69° from T-pose
+      if (rig.hasBone('leftUpperArm')) {
+        rig.setRotation('leftUpperArm', quatFromAxisAngle({ x: 0, y: 0, z: 1 }, -armDownFromTpose))
+      }
+      if (rig.hasBone('rightUpperArm')) {
+        rig.setRotation('rightUpperArm', quatFromAxisAngle({ x: 0, y: 0, z: 1 }, armDownFromTpose))
+      }
+
       // Main breathing oscillation
       const breathPhase = oscBreathing(t, breathRate, intensity)
 
@@ -115,17 +125,15 @@ export function createIdleBreathe(params: IdleBreatheInput = {}): MotionProgram<
         }
       }
 
-      // Arms - very subtle relaxed sway
+      // Arms - very subtle relaxed sway (additive on top of base pose)
       const armSway = osc(t, 0.08, 0, 0.01 * intensity)
 
       if (rig.hasBone('leftUpperArm')) {
-        const leftArmRot = quatFromAxisAngle({ x: 0, y: 0, z: 1 }, armSway * 0.5)
-        rig.setRotation('leftUpperArm', leftArmRot)
+        rig.addRotation('leftUpperArm', quatFromAxisAngle({ x: 0, y: 0, z: 1 }, armSway * 0.5))
       }
 
       if (rig.hasBone('rightUpperArm')) {
-        const rightArmRot = quatFromAxisAngle({ x: 0, y: 0, z: 1 }, -armSway * 0.5)
-        rig.setRotation('rightUpperArm', rightArmRot)
+        rig.addRotation('rightUpperArm', quatFromAxisAngle({ x: 0, y: 0, z: 1 }, -armSway * 0.5))
       }
     },
   }

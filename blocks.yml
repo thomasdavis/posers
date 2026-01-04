@@ -66,6 +66,25 @@ philosophy:
   - "Motion quality degrades gracefully, never fails abruptly"
   - "hasBone() checks wrap all optional bone access"
 
+  # VRM RUNTIME REQUIREMENTS (CRITICAL)
+  - "VRM does NOT standardize bone axis conventions - local axes vary by DCC, exporter, and rig"
+  - "NEVER assume X=pitch, Y=yaw, Z=roll - this varies per model"
+  - "All rotations must be DELTAS from rest pose (T-pose baseline), not absolute rotations"
+  - "Apply rotations to NORMALIZED bones via humanoid API, not raw bones"
+  - "Call vrm.update() / humanoid.update() after setting rotations to sync normalized→raw"
+  - "The one-arm-stuck bug is usually caused by mixing raw/normalized bones or absolute/delta rotations"
+
+  # AXIS DISCOVERY (NOT ASSUMPTION)
+  - "Do not assume which axis bends a joint - discover it per model or use a rig profile"
+  - "Test: apply tiny rotation on X,Y,Z separately, measure which produces expected hinge behavior"
+  - "If axis behavior differs wildly between left/right limbs, the model has rigging issues"
+  - "For production: generate a RigProfile JSON that maps semantic actions to discovered axes"
+
+  # RIG CERTIFICATION
+  - "Use Seed-san (official VRM sample) as canonical reference model"
+  - "If Seed-san fails → code bug; if Seed-san passes but your model fails → model needs profiling"
+  - "Rig certification should verify: bone map, rest pose symmetry, axis consistency, golden poses"
+
 domain:
   entities:
     motion_program:
@@ -116,10 +135,15 @@ domain:
         - setHipsPositionOffset
         - getWorldPosition
         - getRestPose
+        - getNormalizedBone
       requirements:
         - "Always check hasBone() before accessing optional bones"
         - "Use addRotation for layered effects on same bone"
         - "setHipsPositionOffset for root motion and bounce"
+        - "CRITICAL: Use normalized bones, not raw bones"
+        - "CRITICAL: Apply deltas from rest pose, not absolute rotations"
+        - "CRITICAL: Ensure vrm.update() is called after bone modifications"
+        - "Do not assume bone axis conventions - they vary per model"
 
     motion_context:
       description: "Runtime context passed to motion update functions"
@@ -499,9 +523,127 @@ blocks:
           - "MICRO: Very slow noise layer (meditative)"
           - "TRANSITIONS: Smooth between gesture variants"
 
+  jump:
+    type: function
+    description: |
+      Athletic vertical jump from standing. Full body coordination with anticipation,
+      takeoff, airborne, and landing phases. Arms swing for momentum.
+
+      FEEL: Explosive power, brief weightlessness, controlled landing. Like a basketball player going for a rebound.
+
+      PHASE TIMING (overlapping envelopes):
+      - ANTICIPATION (0-25%): Squat down, arms back, weight shifts forward
+      - TAKEOFF (20-35%): Explosive extension, arms swing up, toes push off
+      - AIRBORNE (30-70%): Body extends, arms reach peak, slight arch
+      - LANDING (65-100%): Anticipate ground, absorb impact, stabilize
+
+      BREATH: Inhale during anticipation, hold through jump, exhale on landing.
+    path: "packages/motion-dsl/src/motions/jump.ts"
+    inputs:
+      - name: rig
+        type: entity.rig
+      - name: ctx
+        type: entity.motion_context
+    outputs:
+      - name: pose
+        type: entity.motion_program
+        measures: [bone_count, documentation_quality, quaternion_validity, phase_continuity, humanlike_quality]
+        constraints:
+          - "DOCUMENTATION: Must describe jump biomechanics and phases"
+          - "ANTICIPATION: Squat with hip/knee/ankle flexion"
+          - "ANTICIPATION: Arms swing back, weight shifts forward"
+          - "ANTICIPATION: Spine flexes slightly forward"
+          - "TAKEOFF: Explosive triple extension (hip/knee/ankle)"
+          - "TAKEOFF: Arms swing up for momentum"
+          - "TAKEOFF: Toes last to leave ground"
+          - "AIRBORNE: Body extends, slight back arch"
+          - "AIRBORNE: Arms at peak height"
+          - "AIRBORNE: Toes point downward"
+          - "LANDING: Anticipatory leg flexion before contact"
+          - "LANDING: Heel-toe contact, absorb through legs"
+          - "LANDING: Arms swing forward for balance"
+          - "LANDING: Spine flexes to absorb"
+          - "HIPS: Vertical translation for root motion"
+          - "BREATH: Couples to jump phases"
+          - "TIMING: Phase envelopes must overlap"
+
+  backflip:
+    type: function
+    description: |
+      Acrobatic standing backflip. Full rotation with explosive takeoff,
+      tucked aerial phase, and controlled landing. High skill movement.
+
+      FEEL: Explosive commitment, brief disorientation, triumphant stick. Like a gymnast's floor routine finale.
+
+      PHASE TIMING (overlapping envelopes):
+      - ANTICIPATION (0-20%): Deep squat, arms forward, eyes spot ceiling
+      - TAKEOFF (15-30%): Explosive up-and-back, arms swing overhead, head throws back
+      - ROTATION (25-75%): Tight tuck, knees to chest, arms wrap, fast rotation
+      - OPENING (70-90%): Untuck, legs extend, arms out, spot landing
+      - LANDING (85-100%): Absorb impact, stabilize, arms out for balance
+
+      This is an advanced motion requiring precise timing and coordination.
+    path: "packages/motion-dsl/src/motions/backflip.ts"
+    inputs:
+      - name: rig
+        type: entity.rig
+      - name: ctx
+        type: entity.motion_context
+    outputs:
+      - name: pose
+        type: entity.motion_program
+        measures: [bone_count, documentation_quality, quaternion_validity, phase_continuity, humanlike_quality]
+        constraints:
+          - "DOCUMENTATION: Must describe backflip biomechanics"
+          - "DOCUMENTATION: Must specify rotation timing"
+          - "ANTICIPATION: Deep squat, arms forward"
+          - "ANTICIPATION: Eyes spot target behind"
+          - "TAKEOFF: Explosive vertical jump"
+          - "TAKEOFF: Arms swing overhead and back"
+          - "TAKEOFF: Head throws back to initiate rotation"
+          - "ROTATION: Tight tuck (knees to chest)"
+          - "ROTATION: Arms wrap around shins"
+          - "ROTATION: Full 360° rotation around lateral axis"
+          - "ROTATION: Maintain tuck through apex"
+          - "OPENING: Extend legs, spot landing"
+          - "OPENING: Arms out for balance"
+          - "LANDING: Absorb through legs"
+          - "LANDING: Arms out for balance"
+          - "HIPS: Parabolic trajectory (up, back, down)"
+          - "HEAD: Tracks rotation, spots landing"
+          - "TIMING: Precise phase envelopes"
+          - "TIMING: Tuck timing critical for rotation speed"
+
 validators:
   - schema
   - domain
+
+# Custom validators (run via script)
+custom_validators:
+  visual:
+    description: "GPT-4o vision-based motion analysis"
+    script: "pnpm --filter @posers/blocks validate:visual"
+    requires:
+      - OPENAI_API_KEY
+      - "Viewer running on viewer_url"
+
+# VISUAL VALIDATION CONFIG
+# Uses GPT-4o vision to analyze screenshots of running animations
+visual_validation:
+  enabled: true
+  model: "gpt-4o"
+  viewer_url: "http://localhost:4100"
+  default_frames: 3
+  interval_ms: 500
+  checks:
+    - "Core bones (hips, spine, chest, neck, head) are visibly animated"
+    - "No limbs stuck in T-pose or unnatural positions"
+    - "Motion appears smooth and fluid (no jitter or discrete jumps)"
+    - "Pose is anatomically plausible"
+    - "Weight distribution looks natural"
+    - "Secondary motion is present (micro-movements, follow-through)"
+    - "Phase timing matches expected behavior (anticipation, execution, follow-through)"
+  pass_threshold: 60  # Minimum score to pass (0-100)
 
 # FUTURE ADDITIONS (documented for roadmap):
 #

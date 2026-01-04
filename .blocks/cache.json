@@ -1,39 +1,39 @@
 {
   "version": "1.0",
   "createdAt": "2026-01-03T10:10:49.852Z",
-  "updatedAt": "2026-01-03T11:05:59.466Z",
+  "updatedAt": "2026-01-03T13:01:32.251Z",
   "configFingerprint": {
-    "fullHash": "d3d0027e7ecd43063f465a25ff758bd5a2bf57bbf2921f063da0e6cf826c362e",
-    "philosophyHash": "f4de8d76c402d1c4cc7c179bf3619a76fce1f96421a159e5fa8bb64ed6bde60a",
-    "domainHash": "4fed2b4c8fe85954ae3cfe2c1b781af70d0be974e5da2a7a31b797426ef38048",
-    "aiConfigHash": "59ee04f04d6ac6c9e99647b6bc0466af294618e9b5483d9d5a6bb926e9337398",
+    "fullHash": "f85e0da7cd8e2ef6d152181f281fe0f4a8c8c503a6c09726e1cc49f47aee57d6",
+    "philosophyHash": "f20c3ae9d482c0fddfab93b25050f042e3dfec4aa893a26f579d674ee67f28bf",
+    "domainHash": "80c57010ad4cf67b7ab3a6c0d3108fbc7b4c5ff5177600a96338bd870950c328",
+    "aiConfigHash": "04debc98116ddad860681f0b7879c0ce716465de99a37b3421186f7bb4b73136",
     "validatorsHash": "ea00008af8d02fc889192dc4db3bb6d1e2e174559408b416c9795d7ea66077be",
     "globalDomainRulesHash": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
     "blockConfigs": {
       "confident_stance": {
-        "definitionHash": "c8b5d5134125ccbdca01825188de932518cc849379deb9629f43b491abddc12e",
+        "definitionHash": "e885b5a0e553dfa930d919798538b96c2f173355e9f5bccf144dc95b9fdde572",
         "domainRulesHash": null,
-        "inputsOutputsHash": "23fde40e279e7717d1c41413c7024633a49e2d271817f2ecbd6bd9ad7e624cb0"
+        "inputsOutputsHash": "cf11ea18ff9cc6d7af5ec5beb4aec48feda396f47a7a3962873adba97a5901a8"
       },
       "nervous_fidget": {
-        "definitionHash": "40ac69ef1b75a1c52f09ecb64e2b6e18e83c76aacf438c7095e69802678ad748",
+        "definitionHash": "4f75a74945a2e3f2cf7b43474e580f2cb9f037734779cdbd273552411f1dcb5e",
         "domainRulesHash": null,
-        "inputsOutputsHash": "88bb925284b581fff12a58d2ab43f8e178abb5385cdd6f23ffb5c6297ea7584a"
+        "inputsOutputsHash": "a9a3af1ace1bb093ee5c4899f0fa709b26d636173c4772da411fe3b5bb23d51d"
       },
       "smoking_cigarette": {
-        "definitionHash": "d467664b9f7cd3c8ae109163e64b12ee8f600a91d54a9b3456dec87f12404c67",
+        "definitionHash": "2b1410651bb3727530146db8eff11fab3a60086b41c433f3c9499093fd4aed15",
         "domainRulesHash": null,
-        "inputsOutputsHash": "ea82cb934ca2e1266ae902934f95530bb04c23616a497d3df47475b1fcd34e1a"
+        "inputsOutputsHash": "f925a048d6fa6df973d0fd3a3f01f85a444adcc3e469b691e28221253b112090"
       },
       "seductive_walk": {
-        "definitionHash": "f781afcdf338e98d99f707b9e1a8cd940ecd861ddd8ebc702823560ee2e35a7f",
+        "definitionHash": "3007614c7cebcdf0429e12aaa77f262b1e961d6589e1118dc907d6857897de3c",
         "domainRulesHash": null,
-        "inputsOutputsHash": "b8aaa006ffe27793b5b780e33ce610056e259d29f1fcef8bd3610c0f027c7a84"
+        "inputsOutputsHash": "bc14e5a54525ec5304c7286256b1098a32f6faa180c6acf920b5d03d46b86fda"
       },
       "contemplative_lean": {
-        "definitionHash": "fd5591a3aa79ec5c81bd5d71fa9de7f017255abde2a78b942f96ff59cefc18ad",
+        "definitionHash": "d649d98ad8081846956600a1d58968b0de2259b0417646a799c9bf2cce252878",
         "domainRulesHash": null,
-        "inputsOutputsHash": "7b20d3c419ea9409f78bb1845c3b2daf37136bc7a1289cde561acf894b474ae8"
+        "inputsOutputsHash": "9b4e5c0f194644ba4b2ff3db08f131d75b322f2d50c8b9ac90d72ff0dc9dab2f"
       }
     }
   },
@@ -44,39 +44,49 @@
       "files": [
         {
           "path": "confident-stance.ts",
-          "hash": "aa526607432b37fd149b831efa99e5865fbf38deaa5304b8bc5cb3169279fe80",
-          "size": 15790,
-          "mtime": 1767437664956.117
+          "hash": "c75c866dd7a67fe9ccd05f389ec5da51673b963ba19b476b758867949f59a9d0",
+          "size": 28806,
+          "mtime": 1767443167173.0608
         }
       ],
-      "contentHash": "6194b7715bdc12e70706d8c9c6f5432b1407f38564089494ef2471f6b71acf66",
-      "configHash": "c8b5d5134125ccbdca01825188de932518cc849379deb9629f43b491abddc12e",
-      "lastValidated": "2026-01-03T11:04:40.203Z",
-      "lastRunId": "2026-01-03T11-04-33-712Z",
+      "contentHash": "09a28e1a1cd88302f30923fb52494fd3818d8b2cce7225520d46f51343d66cc3",
+      "configHash": "e885b5a0e553dfa930d919798538b96c2f173355e9f5bccf144dc95b9fdde572",
+      "lastValidated": "2026-01-03T12:58:00.647Z",
+      "lastRunId": "2026-01-03T12-57-07-088Z",
       "validatorResults": {
         "schema.io": {
           "passed": true,
-          "hash": "6194b7715bdc12e70706d8c9c6f5432b1407f38564089494ef2471f6b71acf66",
+          "hash": "09a28e1a1cd88302f30923fb52494fd3818d8b2cce7225520d46f51343d66cc3",
           "issues": []
         },
         "domain.validation": {
-          "passed": true,
-          "hash": "6194b7715bdc12e70706d8c9c6f5432b1407f38564089494ef2471f6b71acf66",
+          "passed": false,
+          "hash": "09a28e1a1cd88302f30923fb52494fd3818d8b2cce7225520d46f51343d66cc3",
           "issues": [
             {
-              "type": "warning",
+              "type": "error",
               "code": "DOMAIN_SEMANTIC_ISSUE",
-              "message": "Missing handling for optional bones in certain parts of the code, which could lead to errors if those bones are not present in the rig."
+              "message": "Missing final sync/update call after setting rotations. The block sets and adds rotations throughout update() but never calls the humanoid/VRM sync API (e.g. rig.update() / vrm.update() / humanoid.update()). The project philosophy requires calling the normalized->raw update after applying rotations to ensure consistent, delta-based behavior and to avoid the common one-arm-stuck bugs."
+            },
+            {
+              "type": "error",
+              "code": "DOMAIN_SEMANTIC_ISSUE",
+              "message": "Global micro-noise requirement not guaranteed for all bones. The file documents and comments 'apply subtle micro-noise to ALL bones', and adds noise to many major bones, but it does not iterate the rig's full bone list or explicitly apply noise to every possible VRM bone (69-bone goal). This means some optional bones could be left without the required life/noise layer on rigs where they exist."
             },
             {
               "type": "warning",
               "code": "DOMAIN_SEMANTIC_ISSUE",
-              "message": "The animation logic for certain joints does not gracefully handle scenarios where associated bones are not available (i.e., finger and eye movements). Should incorporate checks similar to those in other sections of the code."
+              "message": "Assumes canonical local axis conventions for joints. The implementation uses fixed axis vectors (e.g. {x:1,y:0,z:0} for pitch) throughout without any rig profiling or per-model axis discovery. The Blocks philosophy explicitly warns never to assume axis mappings and to discover axes or use a RigProfile; this code does not attempt that, which can yield incorrect hinge behavior on rigs with different local axes."
             },
             {
               "type": "warning",
               "code": "DOMAIN_SEMANTIC_ISSUE",
-              "message": "The overall performance constraint (updates must complete in under 2ms) is not validated or tested in the provided code, raising concerns on whether this requirement is met during execution."
+              "message": "Unclear use of setRotation vs. delta rotations. The code frequently calls rig.setRotation(...) for base posture and rig.addRotation(...) for breathing/noise. The domain rules require all rotations be deltas from rest pose (not absolute). The code does not document whether rig.setRotation expects/produces deltas or absolutes. Without an explicit comment or use of a known 'delta' API, this is ambiguous and risks violating the 'deltas only' rule."
+            },
+            {
+              "type": "warning",
+              "code": "DOMAIN_SEMANTIC_ISSUE",
+              "message": "Finger coverage is implied but not explicitly enumerated. The code delegates per-finger operations to applyFingerCurl/applyFingerSpread (and comments claim those helpers contain hasBone checks). The output constraint requires 'All 30 finger bones should have subtle curl' — the top-level code wraps calls with rig.hasBone('leftHand') / 'rightHand', but does not itself explicitly list the 30 finger bone names or assert coverage. Relying on helper behavior is acceptable only if those helpers are guaranteed to touch every finger bone when present; the block does not assert that guarantee."
             }
           ]
         }
@@ -88,25 +98,61 @@
       "files": [
         {
           "path": "nervous-fidget.ts",
-          "hash": "8644f99258969353378dae2e76da0a93d19ce6938b0382886a0b407b181b6af1",
-          "size": 19357,
-          "mtime": 1767437988372.9658
+          "hash": "92bd32d4ee9abe5186ce1017df6e7698d2c331794c3b29998a9eddcba5283dcf",
+          "size": 27179,
+          "mtime": 1767442296683.1157
         }
       ],
-      "contentHash": "794affeb1b2033e0d4374ecd20fa42e0a12b501737bb5cf8626d5bdcb444d9f9",
-      "configHash": "40ac69ef1b75a1c52f09ecb64e2b6e18e83c76aacf438c7095e69802678ad748",
-      "lastValidated": "2026-01-03T11:05:44.923Z",
-      "lastRunId": "2026-01-03T11-04-33-712Z",
+      "contentHash": "9a7e3c8da7a46595f8a54baab62491394520e992ced3ee21d2647d2088d63d18",
+      "configHash": "4f75a74945a2e3f2cf7b43474e580f2cb9f037734779cdbd273552411f1dcb5e",
+      "lastValidated": "2026-01-03T12:58:58.795Z",
+      "lastRunId": "2026-01-03T12-57-07-088Z",
       "validatorResults": {
         "schema.io": {
           "passed": true,
-          "hash": "794affeb1b2033e0d4374ecd20fa42e0a12b501737bb5cf8626d5bdcb444d9f9",
+          "hash": "9a7e3c8da7a46595f8a54baab62491394520e992ced3ee21d2647d2088d63d18",
           "issues": []
         },
         "domain.validation": {
-          "passed": true,
-          "hash": "794affeb1b2033e0d4374ecd20fa42e0a12b501737bb5cf8626d5bdcb444d9f9",
-          "issues": []
+          "passed": false,
+          "hash": "9a7e3c8da7a46595f8a54baab62491394520e992ced3ee21d2647d2088d63d18",
+          "issues": [
+            {
+              "type": "error",
+              "code": "DOMAIN_SEMANTIC_ISSUE",
+              "message": "No rig axis discovery / RigProfile usage. The code assumes semantic axes (e.g. X = pitch, Y = yaw, Z = roll) throughout (quatFromAxisAngle uses hardcoded axis vectors). Blocks philosophy forbids assuming axis conventions — code must discover per-rig axes or use a RigProfile JSON / axis-mapping per model."
+            },
+            {
+              "type": "error",
+              "code": "DOMAIN_SEMANTIC_ISSUE",
+              "message": "Rotations may be applied as absolute setRotation calls rather than explicit DELTAS from the rest pose. The domain rules require all rotations to be deltas from the T-pose and applied to normalized bones. The file uses rig.setRotation(...) for several bones (hips, spine, chest, upperChest, shoulders, neck, head, jaw, toes) and then layered addRotation(...) in other places. This mixture risks overwriting previous layers or mixing absolute vs delta rotations. Use explicit additive deltas (addRotation) or document that rig.setRotation accepts normalized deltas, and ensure consistency."
+            },
+            {
+              "type": "error",
+              "code": "DOMAIN_SEMANTIC_ISSUE",
+              "message": "Missing humanoid/vrm update call after setting rotations. The Blocks philosophy requires calling vrm.update() / humanoid.update() (or equivalent) to sync normalized→raw after applying rotations. This file never calls an update/sync method on the rig."
+            },
+            {
+              "type": "warning",
+              "code": "DOMAIN_SEMANTIC_ISSUE",
+              "message": "applyFingerCurl helper usage is assumed to animate all finger joints (30 joints) and to handle missing finger bones. The helper's implementation is not in this block; ensure applyFingerCurl indeed animates every finger joint and performs per-joint hasBone() checks so the motion meets the 'All finger joints animated' and graceful-degradation rules."
+            },
+            {
+              "type": "warning",
+              "code": "DOMAIN_SEMANTIC_ISSUE",
+              "message": "A few imported symbols are unused (osc, Easing). Remove unused imports to avoid introducing undocumented concepts or unused complexity."
+            },
+            {
+              "type": "warning",
+              "code": "DOMAIN_SEMANTIC_ISSUE",
+              "message": "Minor implementation/comment mismatch in foot tapping: comments discuss confusion about phase math and frequencies, and the inline comment is inconsistent with the implemented phase update (state.footTapPhase += dt * 3). Leave clarifying comment or rewrite to make phase units explicit (phase in seconds vs cycles)."
+            },
+            {
+              "type": "warning",
+              "code": "DOMAIN_SEMANTIC_ISSUE",
+              "message": "Head jitter variable naming / axis usage is a little confusing: headJitterX is added to state.lookTarget.y (pitch) and headJitterY added to yaw. This may be intentional but should be clarified or swapped to match naming to axis for maintainability."
+            }
+          ]
         }
       }
     },
@@ -116,44 +162,49 @@
       "files": [
         {
           "path": "smoking-cigarette.ts",
-          "hash": "6b1f376688120f6c65c3d9a4a7f439e4366dd32f46f7d25364d0c40f79145371",
-          "size": 21843,
-          "mtime": 1767438058568.7678
+          "hash": "4f6397b83ef2aca759417ccbe75b2416077c0c149380dcf0203800172b87f373",
+          "size": 28414,
+          "mtime": 1767443662518.6245
         }
       ],
-      "contentHash": "63ecd3cecfae3a457981e2da3ec98e31fde7d022f64649ed4f45fe2fd902c0d2",
-      "configHash": "d467664b9f7cd3c8ae109163e64b12ee8f600a91d54a9b3456dec87f12404c67",
-      "lastValidated": "2026-01-03T11:05:53.871Z",
-      "lastRunId": "2026-01-03T11-04-33-712Z",
+      "contentHash": "f0cf7ecc759973c9428657bb2e97e3ec6327d444878bb0ff7311d074b5c9fdbc",
+      "configHash": "2b1410651bb3727530146db8eff11fab3a60086b41c433f3c9499093fd4aed15",
+      "lastValidated": "2026-01-03T12:59:40.373Z",
+      "lastRunId": "2026-01-03T12-57-07-088Z",
       "validatorResults": {
         "schema.io": {
           "passed": true,
-          "hash": "63ecd3cecfae3a457981e2da3ec98e31fde7d022f64649ed4f45fe2fd902c0d2",
+          "hash": "f0cf7ecc759973c9428657bb2e97e3ec6327d444878bb0ff7311d074b5c9fdbc",
           "issues": []
         },
         "domain.validation": {
-          "passed": true,
-          "hash": "63ecd3cecfae3a457981e2da3ec98e31fde7d022f64649ed4f45fe2fd902c0d2",
+          "passed": false,
+          "hash": "f0cf7ecc759973c9428657bb2e97e3ec6327d444878bb0ff7311d074b5c9fdbc",
           "issues": [
             {
-              "type": "warning",
+              "type": "error",
               "code": "DOMAIN_SEMANTIC_ISSUE",
-              "message": "The motion does not explicitly include checks for the presence of necessary bones before applying transformations, risking errors if required bones are absent, even though there's a note regarding graceful handling in comments."
+              "message": "Critical: Block does not satisfy the HAND POSITION constraint (accurate hand-to-mouth targeting). The source explicitly documents and implements a forward-kinematics (FK) approach and states that precise hand-to-mouth contact cannot be guaranteed without an IK solver or rig-specific tuning. The motion output constraints require IK or precise targeting for reliable mouth contact, so this is a functional mismatch with the declared constraints."
             },
             {
               "type": "warning",
               "code": "DOMAIN_SEMANTIC_ISSUE",
-              "message": "The module contains hardcoded values for motion intensity and other parameters in the state machine, which could lead to non-deterministic behavior if not appropriately scaled with respect to the input parameters provided."
+              "message": "Warning: applyCigaretteGrip is called without explicit hasBone() checks for individual finger bones in this file. The file checks for the hand bone prior to calling the helper, but the helper implementation (../blend) is not visible here. If applyCigaretteGrip accesses finger bones directly, those accesses must be guarded or the helper must itself perform hasBone() checks to satisfy the 'hasBone() checks wrap all optional bone access' policy."
             },
             {
               "type": "warning",
               "code": "DOMAIN_SEMANTIC_ISSUE",
-              "message": "Documentation mentions each animation phase's specific requirements (like applying secondary motion on fingers), but the actual implementation does not demonstrate any conditional checks or implementations for these effects based on the parameters provided, which could lead to potentially incomplete animations."
+              "message": "Warning: The code mixes setRotation(...) and addRotation(...) calls. The Blocks philosophy requires rotations to be DELTAS from rest pose and applied via the normalized humanoid API; mixing absolute vs additive APIs without explicit comments about whether setRotation is a delta or absolute can produce the one-arm-stuck bug. The source does not explicitly document or demonstrate that setRotation is used only for delta rotations (or that the rig API normalizes these), so this is a potential risk."
             },
             {
               "type": "warning",
               "code": "DOMAIN_SEMANTIC_ISSUE",
-              "message": "While the function describes the implementation of various motions fluidly, the transition handling between phases could be made more robust by including a state consistency check to ensure smoother and more organic transitions, particularly under varying input conditions."
+              "message": "Warning: The architecture guidance recommends calling vrm.update()/humanoid.update() after setting rotations to sync normalized → raw bones. This update() call is not present in the file. If the runtime does not automatically perform this synchronization elsewhere, failing to call it can produce inconsistencies between normalized and raw bone transforms."
+            },
+            {
+              "type": "warning",
+              "code": "DOMAIN_SEMANTIC_ISSUE",
+              "message": "Warning: The Blocks philosophy suggests axis discovery / rig profiling (RigProfile JSON) because VRM bone axis conventions vary by exporter/DCC. This motion uses hard-coded axis assumptions (quatFromAxisAngle with X/Y/Z axes). The code does not perform per-rig axis discovery or generate/require a RigProfile. For production rigs with inconsistent axes the motion may behave incorrectly."
             }
           ]
         }
@@ -165,25 +216,56 @@
       "files": [
         {
           "path": "seductive-walk.ts",
-          "hash": "6df6da72cf509004fd61672be3a9f58970b1c6302c447b3046a33e7d8e3f39e5",
-          "size": 19874,
-          "mtime": 1767437988644.3987
+          "hash": "ad6b24bca26fd37d67a3583eb4afd38b66331ddd4f30ee82e938e335a8efb68f",
+          "size": 26492,
+          "mtime": 1767442805827.3345
         }
       ],
-      "contentHash": "f1ccd36dc784a6fe2222d7b22dd657f0664beab285e897c2450dd2ff49ff6f16",
-      "configHash": "f781afcdf338e98d99f707b9e1a8cd940ecd861ddd8ebc702823560ee2e35a7f",
-      "lastValidated": "2026-01-03T11:05:56.856Z",
-      "lastRunId": "2026-01-03T11-04-33-712Z",
+      "contentHash": "cf49d2faf43c10dba2a3a4aa89ccac5c48fb48f8450d59ed98d4b2d8df9d67f2",
+      "configHash": "3007614c7cebcdf0429e12aaa77f262b1e961d6589e1118dc907d6857897de3c",
+      "lastValidated": "2026-01-03T13:00:41.445Z",
+      "lastRunId": "2026-01-03T12-57-07-088Z",
       "validatorResults": {
         "schema.io": {
           "passed": true,
-          "hash": "f1ccd36dc784a6fe2222d7b22dd657f0664beab285e897c2450dd2ff49ff6f16",
+          "hash": "cf49d2faf43c10dba2a3a4aa89ccac5c48fb48f8450d59ed98d4b2d8df9d67f2",
           "issues": []
         },
         "domain.validation": {
-          "passed": true,
-          "hash": "f1ccd36dc784a6fe2222d7b22dd657f0664beab285e897c2450dd2ff49ff6f16",
-          "issues": []
+          "passed": false,
+          "hash": "cf49d2faf43c10dba2a3a4aa89ccac5c48fb48f8450d59ed98d4b2d8df9d67f2",
+          "issues": [
+            {
+              "type": "error",
+              "code": "DOMAIN_SEMANTIC_ISSUE",
+              "message": "Hardcoded bone axis assumptions: the implementation applies rotations using fixed axes (e.g. {x:1,y:0,z:0} for pitch) throughout the file without performing any axis-discovery or using a RigProfile. The domain guidance explicitly forbids assuming axis conventions because VRM/local axes vary by exporter/DCC and this often causes hinge/one-arm-stuck bugs."
+            },
+            {
+              "type": "error",
+              "code": "DOMAIN_SEMANTIC_ISSUE",
+              "message": "No call to rig.update() / humanoid.update() (or equivalent) after applying rotations. The domain rules require updating the normalized→raw mapping after setting rotations to avoid synchronization bugs."
+            },
+            {
+              "type": "error",
+              "code": "DOMAIN_SEMANTIC_ISSUE",
+              "message": "Rotations appear to be applied as absolute quaternions created from axis-angle and passed directly to rig.setRotation. The domain rules require rotations to be DELTAS (relative from rest/T-pose) rather than absolute rotations unless the API is explicitly delta-based. The code does not document or demonstrate that setRotation expects delta rotations."
+            },
+            {
+              "type": "warning",
+              "code": "DOMAIN_SEMANTIC_ISSUE",
+              "message": "No axis-discovery or hinge-testing logic is present. The domain guidance recommends testing small rotations on X/Y/Z per joint or generating a RigProfile JSON for production rigs; this code does not perform those tests or consume a rig profile to map semantic actions to discovered axes."
+            },
+            {
+              "type": "warning",
+              "code": "DOMAIN_SEMANTIC_ISSUE",
+              "message": "The file claims to 'consider ALL 69 VRM bones' in documentation, but the implementation does not explicitly touch or consider several facial bones (jaw, eyebrows, lips) or other possible VRM-specific bones. While many optional bones are guarded with hasBone(), the code does not explicitly document handling or graceful degradation for every VRM bone group (e.g., jaw animation or detailed facial bones)."
+            },
+            {
+              "type": "warning",
+              "code": "DOMAIN_SEMANTIC_ISSUE",
+              "message": "Mix of setRotation and addRotation is used (e.g. addRotation for breath on chest, setRotation elsewhere) without explicit comment on expected semantics. If setRotation expects absolute values and addRotation expects deltas, this mixing can lead to unintended stacking. The file does not clarify these API semantics."
+            }
+          ]
         }
       }
     },
@@ -193,25 +275,51 @@
       "files": [
         {
           "path": "contemplative-lean.ts",
-          "hash": "df82146fbaeb26d44d6d0ba9e32b49758cecfcf8e5652b95b4e3884e17f8d3ed",
-          "size": 23454,
-          "mtime": 1767438110739.5535
+          "hash": "f6c1fc8b4d19ee1b84437e1a454707a12e3400e0f967dff1761ade5690755db4",
+          "size": 29531,
+          "mtime": 1767442816379.1309
         }
       ],
-      "contentHash": "7204bd91e5182d0040554e23a031f02608448ebeba48eb5c675e95a83a9e42ba",
-      "configHash": "fd5591a3aa79ec5c81bd5d71fa9de7f017255abde2a78b942f96ff59cefc18ad",
-      "lastValidated": "2026-01-03T11:05:59.466Z",
-      "lastRunId": "2026-01-03T11-04-33-712Z",
+      "contentHash": "7ec44ae61dcf6777fc8ca5389837edb2207c210cc556f04399eb1356ec59e8de",
+      "configHash": "d649d98ad8081846956600a1d58968b0de2259b0417646a799c9bf2cce252878",
+      "lastValidated": "2026-01-03T13:01:32.249Z",
+      "lastRunId": "2026-01-03T12-57-07-088Z",
       "validatorResults": {
         "schema.io": {
           "passed": true,
-          "hash": "7204bd91e5182d0040554e23a031f02608448ebeba48eb5c675e95a83a9e42ba",
+          "hash": "7ec44ae61dcf6777fc8ca5389837edb2207c210cc556f04399eb1356ec59e8de",
           "issues": []
         },
         "domain.validation": {
-          "passed": true,
-          "hash": "7204bd91e5182d0040554e23a031f02608448ebeba48eb5c675e95a83a9e42ba",
-          "issues": []
+          "passed": false,
+          "hash": "7ec44ae61dcf6777fc8ca5389837edb2207c210cc556f04399eb1356ec59e8de",
+          "issues": [
+            {
+              "type": "error",
+              "code": "DOMAIN_SEMANTIC_ISSUE",
+              "message": "Assumes fixed local axis conventions (uses X/Y/Z as pitch/yaw/roll) but does not perform per-rig axis discovery or produce a RigProfile. The block uses quatFromAxisAngle({x:1,y:0,z:0}, ...) etc. The Blocks philosophy explicitly forbids assuming axis mapping and requires testing/discovery per model or using a RigProfile JSON."
+            },
+            {
+              "type": "error",
+              "code": "DOMAIN_SEMANTIC_ISSUE",
+              "message": "Does not call vrm.update() / humanoid.update() (or equivalent) after setting rotations. The domain rules require calling the humanoid/vrm update to sync normalized→raw bones after modifying rotations to avoid issues like the one-arm-stuck bug."
+            },
+            {
+              "type": "warning",
+              "code": "DOMAIN_SEMANTIC_ISSUE",
+              "message": "The code relies on an external helper (applyFingerCurl) to animate all 30 finger bones and comments claim it performs hasBone() checks for each finger joint. The helper implementation is not included here; you must verify that applyFingerCurl indeed performs hasBone() guards for every fingertip/proximal/intermediate/distal bone to satisfy the 'hasBone() checks wrap all optional bone access' rule."
+            },
+            {
+              "type": "warning",
+              "code": "DOMAIN_SEMANTIC_ISSUE",
+              "message": "The motion mixes calls to setRotation(...) and addRotation(...) for the same bones (for example: chest uses setRotation earlier and addRotation for breathing). Mixing absolute and additive rotation APIs can produce state inconsistency or the one-arm-stuck symptom unless the rig API semantics are strictly normalized to deltas. Ensure the code uses DELTA rotations consistently (or documents the exact API contract) and avoids mixing absolute vs additive semantics."
+            },
+            {
+              "type": "warning",
+              "code": "DOMAIN_SEMANTIC_ISSUE",
+              "message": "No explicit enforcement or clamping of anatomical joint limits. While the chosen angle magnitudes are modest, the domain rules require joint rotations to respect anatomical limits. Add explicit clamps or a rig-aware limit profile so rotations cannot exceed safe ranges per joint."
+            }
+          ]
         }
       }
     }

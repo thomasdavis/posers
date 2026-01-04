@@ -277,18 +277,25 @@ export function createConfidentStance(params: ConfidentStanceInput = {}): Motion
         rig.setRotation('rightShoulder', rightShoulderRot)
       }
 
-      // Arms - relaxed at sides with slight separation
-      // 0.12 rad = 6.9° abduction keeps arms away from body naturally
-      const armAbduction = 0.12 * intensity
-      const armRelax = 0.08 * intensity
+      // Arms - relaxed at sides
+      // VRM normalized bones start in T-pose (arms horizontal)
+      // To bring arms down to natural stance, we need ~75° (1.3 rad) rotation
+      // VRM normalized coords have mirrored axes for left/right:
+      // - LEFT arm: NEGATIVE Z brings arm DOWN
+      // - RIGHT arm: POSITIVE Z brings arm DOWN
+      const armDownFromTpose = 1.3 * intensity  // ~75° to bring from T-pose to sides
+      const armAbduction = 0.12 * intensity     // ~7° keeps arms slightly away from body
+      const armRelax = 0.08 * intensity         // slight forward rotation
+      const armDownMagnitude = armDownFromTpose - armAbduction
       if (rig.hasBone('leftUpperArm')) {
-        const leftUpperArmRot = quatFromAxisAngle({ x: 0, y: 0, z: 1 }, armAbduction)
+        const leftUpperArmRot = quatFromAxisAngle({ x: 0, y: 0, z: 1 }, -armDownMagnitude)  // negative for left
         leftUpperArmRot.multiply(quatFromAxisAngle({ x: 1, y: 0, z: 0 }, armRelax))
         rig.setRotation('leftUpperArm', leftUpperArmRot)
       }
       if (rig.hasBone('rightUpperArm')) {
-        const rightUpperArmRot = quatFromAxisAngle({ x: 0, y: 0, z: 1 }, -armAbduction)
-        rightUpperArmRot.multiply(quatFromAxisAngle({ x: 1, y: 0, z: 0 }, armRelax))
+        // Right arm: Z brings down, mirrored from left (+Z instead of -Z)
+        const rightUpperArmRot = quatFromAxisAngle({ x: 0, y: 0, z: 1 }, armDownMagnitude)
+        rightUpperArmRot.multiply(quatFromAxisAngle({ x: 1, y: 0, z: 0 }, -armRelax))
         rig.setRotation('rightUpperArm', rightUpperArmRot)
       }
 

@@ -507,10 +507,14 @@ export function createContemplativeLean(params: ContemplativeLeanInput = {}): Mo
       state.armSpring.update(dt)
       const armNoise = state.armSpring.value
 
+      // Base arm-down from T-pose: ~70° (1.2 rad) with mirrored Z axis
+      const armDownBase = 1.2
+
       if (rig.hasBone('leftUpperArm')) {
-        const rot = quatFromAxisAngle({ x: 1, y: 0, z: 0 }, armPose.leftUpperArm.x)
+        // Left arm: negative Z brings arm down
+        const rot = quatFromAxisAngle({ x: 0, y: 0, z: 1 }, -armDownBase + armPose.leftUpperArm.z)
+        rot.multiply(quatFromAxisAngle({ x: 1, y: 0, z: 0 }, armPose.leftUpperArm.x))
         rot.multiply(quatFromAxisAngle({ x: 0, y: 1, z: 0 }, armPose.leftUpperArm.y + armNoise))
-        rot.multiply(quatFromAxisAngle({ x: 0, y: 0, z: 1 }, armPose.leftUpperArm.z))
         rig.setRotation('leftUpperArm', rot)
       }
 
@@ -529,9 +533,10 @@ export function createContemplativeLean(params: ContemplativeLeanInput = {}): Mo
       }
 
       if (rig.hasBone('rightUpperArm')) {
-        const rot = quatFromAxisAngle({ x: 1, y: 0, z: 0 }, armPose.rightUpperArm.x)
+        // Right arm: positive Z brings arm down
+        const rot = quatFromAxisAngle({ x: 0, y: 0, z: 1 }, armDownBase + armPose.rightUpperArm.z)
+        rot.multiply(quatFromAxisAngle({ x: 1, y: 0, z: 0 }, armPose.rightUpperArm.x))
         rot.multiply(quatFromAxisAngle({ x: 0, y: 1, z: 0 }, armPose.rightUpperArm.y - armNoise))
-        rot.multiply(quatFromAxisAngle({ x: 0, y: 0, z: 1 }, armPose.rightUpperArm.z))
         rig.setRotation('rightUpperArm', rot)
       }
 

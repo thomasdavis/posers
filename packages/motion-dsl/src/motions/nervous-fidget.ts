@@ -300,15 +300,18 @@ export function createNervousFidget(params: NervousFidgetInput = {}): MotionProg
       }
 
       // Arms - held closer to body (protective)
-      const armProtect = 0.05 * anxiety
+      // Base arm-down from T-pose: ~70° (1.2 rad) with mirrored Z axis
+      const armDownBase = 1.2
+      const armProtect = 0.1 * anxiety  // arms closer to body when anxious
       if (rig.hasBone('leftUpperArm')) {
-        // 0.15 rad base abduction, reduced by anxiety
-        const leftArmRot = quatFromAxisAngle({ x: 0, y: 0, z: 1 }, 0.15 - armProtect)
+        // Left arm: negative Z brings arm down
+        const leftArmRot = quatFromAxisAngle({ x: 0, y: 0, z: 1 }, -(armDownBase - armProtect))
         leftArmRot.multiply(quatFromAxisAngle({ x: 1, y: 0, z: 0 }, 0.1))
         rig.setRotation('leftUpperArm', leftArmRot)
       }
       if (rig.hasBone('rightUpperArm')) {
-        const rightArmRot = quatFromAxisAngle({ x: 0, y: 0, z: 1 }, -0.15 + armProtect)
+        // Right arm: positive Z brings arm down
+        const rightArmRot = quatFromAxisAngle({ x: 0, y: 0, z: 1 }, armDownBase - armProtect)
         rightArmRot.multiply(quatFromAxisAngle({ x: 1, y: 0, z: 0 }, 0.1))
         rig.setRotation('rightUpperArm', rightArmRot)
       }

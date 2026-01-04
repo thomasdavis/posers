@@ -29,7 +29,7 @@ export default function ViewerPage() {
   const [showAxes, setShowAxes] = useState(false)
   const [autoLoadAttempted, setAutoLoadAttempted] = useState(false)
 
-  // Auto-load first model on mount
+  // Auto-load Seed-san.vrm (canonical test model) on mount
   useEffect(() => {
     if (autoLoadAttempted) return
     setAutoLoadAttempted(true)
@@ -39,11 +39,13 @@ export default function ViewerPage() {
       .then(async (data) => {
         const models = data.models || []
         if (models.length > 0) {
-          const firstModel = models[0]
+          // Prefer Seed-san.vrm as canonical reference model
+          const seedSan = models.find((m: string) => m === 'Seed-san.vrm')
+          const modelToLoad = seedSan || models[0]
           try {
-            const { vrm: loadedVrm } = await loadVRM(`/models/${firstModel}`)
+            const { vrm: loadedVrm } = await loadVRM(`/models/${modelToLoad}`)
             setVrm(loadedVrm)
-            setCurrentModelName(firstModel)
+            setCurrentModelName(modelToLoad)
             // Auto-select first motion
             const ids = getMotionIds()
             if (ids.length > 0) {

@@ -416,15 +416,19 @@ export function createSeductiveWalk(params: SeductiveWalkInput = {}): MotionProg
       const leftWristLag = secondaryMotion ? leftArmSwing * 0.3 : 0
       const rightWristLag = secondaryMotion ? rightArmSwing * 0.3 : 0
 
+      // Base arm-down from T-pose: ~70° (1.2 rad) with mirrored Z axis
+      const armDownBase = 1.2 * intensity
       if (rig.hasBone('leftUpperArm')) {
-        const leftUpperArmRot = quatFromAxisAngle({ x: 1, y: 0, z: 0 }, leftArmSwing)
-        leftUpperArmRot.multiply(quatFromAxisAngle({ x: 0, y: 0, z: 1 }, 0.08 * intensity))
+        // Left arm: negative Z brings arm down, X is forward/back swing
+        const leftUpperArmRot = quatFromAxisAngle({ x: 0, y: 0, z: 1 }, -armDownBase)
+        leftUpperArmRot.multiply(quatFromAxisAngle({ x: 1, y: 0, z: 0 }, leftArmSwing))
         rig.setRotation('leftUpperArm', leftUpperArmRot)
       }
 
       if (rig.hasBone('rightUpperArm')) {
-        const rightUpperArmRot = quatFromAxisAngle({ x: 1, y: 0, z: 0 }, rightArmSwing)
-        rightUpperArmRot.multiply(quatFromAxisAngle({ x: 0, y: 0, z: 1 }, -0.08 * intensity))
+        // Right arm: positive Z brings arm down
+        const rightUpperArmRot = quatFromAxisAngle({ x: 0, y: 0, z: 1 }, armDownBase)
+        rightUpperArmRot.multiply(quatFromAxisAngle({ x: 1, y: 0, z: 0 }, rightArmSwing))
         rig.setRotation('rightUpperArm', rightUpperArmRot)
       }
 

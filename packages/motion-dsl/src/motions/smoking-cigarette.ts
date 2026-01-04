@@ -152,6 +152,7 @@ import {
   createSpring,
   Easing,
   SpringPresets,
+  smootherstep,
   type NoiseGenerator,
   type Spring,
 } from '@posers/core'
@@ -229,11 +230,11 @@ function getPhaseEnvelope(cycleProgress: number, timing: { start: number; peak: 
   if (cycleProgress < timing.peak) {
     // Rising edge: start → peak
     const t = (cycleProgress - timing.start) / (timing.peak - timing.start)
-    return Easing.smootherstep(t)
+    return smootherstep(0, 1, t)
   } else {
     // Falling edge: peak → end
     const t = (cycleProgress - timing.peak) / (timing.end - timing.peak)
-    return 1 - Easing.smootherstep(t)
+    return 1 - smootherstep(0, 1, t)
   }
 }
 
@@ -469,9 +470,12 @@ export function createSmokingCigarette(params: SmokingCigaretteInput = {}): Moti
       }
 
       // Upper arm rotation
+      // Base arm-down from T-pose: handSide * 1.2 gives correct direction for smoking arm
+      // But reduce it when arm is raised to smoke (use armUpEnv to blend)
+      const smokingArmDown = handSide * 1.2 * (1 - armUpEnv * 0.7)
       if (rig.hasBone(upperArmBone)) {
-        const upperArmRot = quatFromAxisAngle({ x: 1, y: 0, z: 0 }, smoothArmX)
-        upperArmRot.multiply(quatFromAxisAngle({ x: 0, y: 0, z: 1 }, -handSide * smoothArmY))
+        const upperArmRot = quatFromAxisAngle({ x: 0, y: 0, z: 1 }, smokingArmDown)
+        upperArmRot.multiply(quatFromAxisAngle({ x: 1, y: 0, z: 0 }, smoothArmX))
         upperArmRot.multiply(quatFromAxisAngle({ x: 0, y: 1, z: 0 }, smoothArmZ))
         rig.setRotation(upperArmBone, upperArmRot)
       }
@@ -500,11 +504,18 @@ export function createSmokingCigarette(params: SmokingCigaretteInput = {}): Moti
       const supportLowerArm = `${supportArm}LowerArm` as VRMHumanBoneName
       const supportHand = `${supportArm}Hand` as VRMHumanBoneName
 
+      // Base arm-down from T-pose for SUPPORT arm (opposite side of smoking arm)
+      // Support arm is opposite of handSide:
+      // - If handSide = 1 (right smoking), support is LEFT → needs NEGATIVE Z = -1.2
+      // - If handSide = -1 (left smoking), support is RIGHT → needs POSITIVE Z = 1.2
+      // So support arm down = -handSide * 1.2
+      const supportArmDown = -handSide * 1.2
+
       if (smokingStyle === 'seductive') {
         // Arm crossed under (one arm supporting the other)
         if (rig.hasBone(supportUpperArm)) {
-          const supportRot = quatFromAxisAngle({ x: 1, y: 0, z: 0 }, 0.4 * intensity)
-          supportRot.multiply(quatFromAxisAngle({ x: 0, y: 0, z: 1 }, handSide * 0.3 * intensity))
+          const supportRot = quatFromAxisAngle({ x: 0, y: 0, z: 1 }, supportArmDown * 0.6)  // Partial down, arm crosses
+          supportRot.multiply(quatFromAxisAngle({ x: 1, y: 0, z: 0 }, 0.4 * intensity))
           rig.setRotation(supportUpperArm, supportRot)
         }
         if (rig.hasBone(supportLowerArm)) {
@@ -513,7 +524,7 @@ export function createSmokingCigarette(params: SmokingCigaretteInput = {}): Moti
       } else {
         // Relaxed at side
         if (rig.hasBone(supportUpperArm)) {
-          rig.setRotation(supportUpperArm, quatFromAxisAngle({ x: 0, y: 0, z: 1 }, handSide * 0.08))
+          rig.setRotation(supportUpperArm, quatFromAxisAngle({ x: 0, y: 0, z: 1 }, supportArmDown))
         }
         if (rig.hasBone(supportLowerArm)) {
           rig.setRotation(supportLowerArm, quatFromAxisAngle({ x: 0, y: 1, z: 0 }, -handSide * 0.15))

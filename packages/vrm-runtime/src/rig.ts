@@ -19,8 +19,9 @@ export class VRMHumanoidRig implements IHumanoidRig {
 
   constructor(vrm: VRM) {
     this.vrm = vrm
-    this.restPose = this.captureCurrentPose()
+    // Order matters: discover bones first, then capture rest pose
     this.availableBones = this.discoverAvailableBones()
+    this.restPose = this.captureCurrentPose()
   }
 
   private discoverAvailableBones(): VRMHumanBoneName[] {

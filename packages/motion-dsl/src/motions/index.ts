@@ -7,6 +7,7 @@ export * from './seductive-walk'
 export * from './contemplative-lean'
 export * from './jump'
 export * from './backflip'
+export * from './waving'
 
 import { idleBreathe, createIdleBreathe, idleBreatheMeta, idleBreatheParamsSchema } from './idle-breathe'
 import { basicWalk, createBasicWalk, basicWalkMeta, basicWalkParamsSchema } from './basic-walk'
@@ -17,6 +18,7 @@ import { seductiveWalk, createSeductiveWalk, seductiveWalkMeta, seductiveWalkPar
 import { contemplativeLean, createContemplativeLean, contemplativeLeanMeta, contemplativeLeanParamsSchema } from './contemplative-lean'
 import { jump, createJump, jumpMeta, jumpParamsSchema } from './jump'
 import { backflip, createBackflip, backflipMeta, backflipParamsSchema } from './backflip'
+import { waving, createWaving, wavingMeta, wavingParamsSchema } from './waving'
 import type { MotionProgram } from '@posers/core'
 
 /**
@@ -76,6 +78,12 @@ export const motionRegistry = {
     paramsSchema: backflipParamsSchema,
     create: createBackflip,
     default: backflip,
+  },
+  'waving': {
+    meta: wavingMeta,
+    paramsSchema: wavingParamsSchema,
+    create: createWaving,
+    default: waving,
   },
 } as const
 

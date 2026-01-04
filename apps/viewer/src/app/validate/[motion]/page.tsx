@@ -29,6 +29,7 @@ export default function ValidatePage() {
   useEffect(() => {
     if (!containerRef.current) return
 
+    const container = containerRef.current
     let mounted = true
     let renderer: THREE.WebGLRenderer | null = null
 
@@ -45,7 +46,7 @@ export default function ValidatePage() {
         renderer = new THREE.WebGLRenderer({ antialias: true })
         renderer.setSize(window.innerWidth, window.innerHeight)
         renderer.setPixelRatio(window.devicePixelRatio)
-        containerRef.current?.appendChild(renderer.domElement)
+        container.appendChild(renderer.domElement)
 
         // Lighting
         const ambient = new THREE.AmbientLight(0xffffff, 0.6)
@@ -128,7 +129,7 @@ export default function ValidatePage() {
       mounted = false
       if (renderer) {
         renderer.dispose()
-        containerRef.current?.removeChild(renderer.domElement)
+        container.removeChild(renderer.domElement)
       }
     }
   }, [motionId, time, showSkeleton])

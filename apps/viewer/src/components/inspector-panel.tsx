@@ -306,7 +306,6 @@ export function InspectorPanel({ vrm, motion, time }: InspectorPanelProps) {
 
         {activeTab === 'meta' && meta && (() => {
           // Cast to any to handle VRM0 vs VRM1 meta differences
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           const m = meta as any
           return (
           <div style={{ fontSize: '0.75rem' }}>

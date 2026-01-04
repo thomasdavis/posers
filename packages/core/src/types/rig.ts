@@ -8,7 +8,26 @@ import type { Pose } from './pose'
  */
 export interface HumanoidRig {
   /**
+   * Set rotation as a delta relative to rest pose.
+   * This is the RECOMMENDED way to set bone rotations.
+   * finalRotation = restLocal * deltaRel
+   */
+  setRotationRel(bone: VRMHumanBoneName, deltaRel: Quaternion): void
+
+  /**
+   * Get the current rotation relative to rest pose.
+   * deltaRel = inverse(restLocal) * currentLocal
+   */
+  getRotationRel(bone: VRMHumanBoneName): Quaternion | null
+
+  /**
+   * Get the bone's rest pose local quaternion.
+   */
+  getRestLocal(bone: VRMHumanBoneName): Quaternion | null
+
+  /**
    * Set the absolute rotation of a bone.
+   * Prefer setRotationRel for portability across models.
    */
   setRotation(bone: VRMHumanBoneName, rotation: Quaternion): void
 

@@ -614,6 +614,41 @@ blocks:
           - "TIMING: Precise phase envelopes"
           - "TIMING: Tuck timing critical for rotation speed"
 
+  waving:
+    type: function
+    description: |
+      Friendly waving gesture. Arm raises, hand oscillates back and forth
+      in a natural waving motion.
+
+      FEEL: Warm, friendly, welcoming. Like greeting a friend from across the room.
+
+      PHASE TIMING (continuous):
+      - ARM RAISE: Arm comes up to shoulder/head height
+      - WAVE: Hand oscillates back and forth at wrist
+      - Both happen simultaneously with smooth transitions
+
+      Simple but expressive social gesture.
+    path: "packages/motion-dsl/src/motions/waving.ts"
+    inputs:
+      - name: rig
+        type: entity.rig
+      - name: ctx
+        type: entity.motion_context
+    outputs:
+      - name: pose
+        type: entity.motion_program
+        measures: [bone_count, documentation_quality, quaternion_validity]
+        constraints:
+          - "WAVING ARM: Raised to shoulder height or above"
+          - "WAVING ARM: Elbow bent, hand near head level"
+          - "WAVING ARM: Hand oscillates back and forth"
+          - "WAVING ARM: Fingers spread slightly (friendly gesture)"
+          - "SUPPORT ARM: Relaxed at side, not in T-pose"
+          - "SUPPORT ARM: Slight elbow bend for natural look"
+          - "HEAD: Slight tilt toward waving hand"
+          - "CORE: Subtle breathing motion"
+          - "Motion should feel warm and friendly"
+
 validators:
   - schema
   - domain

@@ -8,3 +8,4 @@
 export { ccdSolver, type CCDOptions } from './solvers/ccd'
 export { fabrikSolver, type FABRIKOptions } from './solvers/fabrik'
 export { footPlantingHelper, type FootPlantingOptions } from './helpers/foot-planting'
+export * from './solvers/armIK'

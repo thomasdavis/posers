@@ -511,24 +511,21 @@ export function createSmokingCigarette(params: SmokingCigaretteInput = {}): Moti
       // So support arm down = -handSide * 1.2
       const supportArmDown = -handSide * 1.2
 
-      if (smokingStyle === 'seductive') {
-        // Arm crossed under (one arm supporting the other)
-        if (rig.hasBone(supportUpperArm)) {
-          const supportRot = quatFromAxisAngle({ x: 0, y: 0, z: 1 }, supportArmDown * 0.6)  // Partial down, arm crosses
-          supportRot.multiply(quatFromAxisAngle({ x: 1, y: 0, z: 0 }, 0.4 * intensity))
-          rig.setRotation(supportUpperArm, supportRot)
-        }
-        if (rig.hasBone(supportLowerArm)) {
-          rig.setRotation(supportLowerArm, quatFromAxisAngle({ x: 0, y: 1, z: 0 }, -handSide * 1.2 * intensity))
-        }
-      } else {
-        // Relaxed at side
-        if (rig.hasBone(supportUpperArm)) {
-          rig.setRotation(supportUpperArm, quatFromAxisAngle({ x: 0, y: 0, z: 1 }, supportArmDown))
-        }
-        if (rig.hasBone(supportLowerArm)) {
-          rig.setRotation(supportLowerArm, quatFromAxisAngle({ x: 0, y: 1, z: 0 }, -handSide * 0.15))
-        }
+      // Support arm - ALWAYS relaxed at side, no movement
+      // Use explicit bone names to ensure correct arm is targeted
+      const supportArmIsLeft = supportArm === 'left'
+
+      if (rig.hasBone(supportUpperArm)) {
+        // Fixed relaxed position - arm hangs down with slight outward angle
+        const armDownZ = supportArmIsLeft ? -1.2 : 1.2  // Correct sign for each side
+        const supportUpperRot = quatFromAxisAngle({ x: 0, y: 0, z: 1 }, armDownZ)
+        supportUpperRot.multiply(quatFromAxisAngle({ x: 1, y: 0, z: 0 }, 0.05))  // Tiny forward lean
+        rig.setRotation(supportUpperArm, supportUpperRot)
+      }
+      if (rig.hasBone(supportLowerArm)) {
+        // Slight elbow bend for natural look
+        const elbowBendY = supportArmIsLeft ? 0.15 : -0.15
+        rig.setRotation(supportLowerArm, quatFromAxisAngle({ x: 0, y: 1, z: 0 }, elbowBendY))
       }
 
       // Relaxed fingers on support hand
@@ -565,13 +562,15 @@ export function createSmokingCigarette(params: SmokingCigaretteInput = {}): Moti
         rig.setRotation('upperChest', quatFromAxisAngle({ x: 1, y: 0, z: 0 }, -smoothChest * 1.5))
       }
 
-      // Shoulders rise during inhale (delayed 0.1s / ~1% of cycle)
+      // Shoulders rise during inhale - use setRotation not addRotation to avoid accumulation
       const shoulderRise = inhaleEnv * 0.02 * inhaleDepth
-      if (rig.hasBone('leftShoulder')) {
-        rig.addRotation('leftShoulder', quatFromAxisAngle({ x: 0, y: 0, z: 1 }, -shoulderRise))
-      }
+      // Only animate the smoking arm's shoulder, keep support shoulder stable
       if (rig.hasBone('rightShoulder')) {
-        rig.addRotation('rightShoulder', quatFromAxisAngle({ x: 0, y: 0, z: 1 }, shoulderRise))
+        rig.setRotation('rightShoulder', quatFromAxisAngle({ x: 0, y: 0, z: 1 }, shoulderRise))
+      }
+      // Support shoulder stays still
+      if (rig.hasBone('leftShoulder')) {
+        rig.setRotation('leftShoulder', quatFromAxisAngle({ x: 0, y: 0, z: 1 }, 0))
       }
 
       // ========================================

@@ -417,12 +417,12 @@ export function createSmokingCigarette(params: SmokingCigaretteInput = {}): Moti
       const idleElbow = 0.3 * intensity   // Slight bend
       const idleWrist = 0.1 * handSide    // Slight rotation
 
-      // Raised position (at mouth)
-      const raisedArmX = -0.5 * intensity  // Forward flexion to bring to mouth
-      const raisedArmY = 0.4 * intensity   // Abducted
-      const raisedArmZ = handSide * 0.2 * intensity  // Twist toward face
-      const raisedElbow = 1.4 * intensity  // Fully bent
-      const raisedWrist = handSide * 0.3   // Rotated for cigarette
+      // Raised position (at mouth) - arm must come forward AND inward to reach face
+      const raisedArmX = -1.1 * intensity  // Less forward flexion = lower hand
+      const raisedArmY = -0.6 * intensity  // Inward toward mouth centerline
+      const raisedArmZ = handSide * 0.2 * intensity  // Slight twist
+      const raisedElbow = 2.7 * intensity  // Very bent elbow to bring hand to mouth
+      const raisedWrist = handSide * 0.4   // Rotated for cigarette at lips
 
       // Blend between idle and raised based on STAGGERED envelopes
       // Shoulder leads, elbow follows, wrist trails
@@ -471,8 +471,8 @@ export function createSmokingCigarette(params: SmokingCigaretteInput = {}): Moti
 
       // Upper arm rotation
       // Base arm-down from T-pose: handSide * 1.2 gives correct direction for smoking arm
-      // But reduce it when arm is raised to smoke (use armUpEnv to blend)
-      const smokingArmDown = handSide * 1.2 * (1 - armUpEnv * 0.7)
+      // But reduce it significantly when arm is raised to smoke - arm needs to come forward, not down
+      const smokingArmDown = handSide * 1.2 * (1 - armUpEnv * 0.95)
       if (rig.hasBone(upperArmBone)) {
         const upperArmRot = quatFromAxisAngle({ x: 0, y: 0, z: 1 }, smokingArmDown)
         upperArmRot.multiply(quatFromAxisAngle({ x: 1, y: 0, z: 0 }, smoothArmX))

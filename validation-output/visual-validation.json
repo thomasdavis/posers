@@ -59,20 +59,20 @@
         {
           "type": "info",
           "code": "VISUAL_ISSUE",
-          "message": "[Frame 1] Humanoid arms are not in T-pose, slight downward angle observed.",
-          "suggestion": "Constraint: No limbs stuck in T-pose or unnatural positions"
+          "message": "[Frame 1] Humanoid arms are slightly angled downward.",
+          "suggestion": "Constraint: No limbs stuck in T-pose"
         },
         {
           "type": "info",
           "code": "VISUAL_ISSUE",
-          "message": "[Frame 2] Humanoid arms maintain a downward angle, consistent with relaxed pose.",
-          "suggestion": "Constraint: No limbs stuck in T-pose or unnatural positions"
+          "message": "[Frame 2] Humanoid arms maintain a downward angle.",
+          "suggestion": "Constraint: No limbs stuck in T-pose"
         },
         {
           "type": "info",
           "code": "VISUAL_ISSUE",
           "message": "[Frame 3] Humanoid arms continue to show a downward angle.",
-          "suggestion": "Constraint: No limbs stuck in T-pose or unnatural positions"
+          "suggestion": "Constraint: No limbs stuck in T-pose"
         }
       ],
       "context": {
@@ -100,7 +100,7 @@
           "TIMING: Fidget BURSTS not continuous",
           "TIMING: Quiet moments between fidget clusters"
         ],
-        "summary": "Score: 75/100 - The humanoid arms are angled slightly downward, indicating the animation is working correctly."
+        "summary": "Score: 75/100 - The humanoid arms are angled slightly downward, indicating the animation is functioning correctly."
       },
       "ai": {
         "provider": "openai",
@@ -111,16 +111,22 @@
       "valid": true,
       "issues": [
         {
-          "type": "error",
+          "type": "info",
           "code": "VISUAL_ISSUE",
-          "message": "[Frame 2] Humanoid arms are perfectly horizontal, indicating a T-pose.",
-          "suggestion": "Constraint: 2"
+          "message": "[Frame 1] Initial pose shows arms slightly downward, indicating readiness for motion.",
+          "suggestion": "Constraint: No limbs stuck in T-pose"
         },
         {
-          "type": "error",
+          "type": "info",
           "code": "VISUAL_ISSUE",
-          "message": "[Frame 3] Humanoid arms remain in T-pose, suggesting animation issues.",
-          "suggestion": "Constraint: 2"
+          "message": "[Frame 2] Arm is raised naturally towards the mouth, maintaining smooth motion.",
+          "suggestion": "Constraint: Motion appears smooth and fluid"
+        },
+        {
+          "type": "info",
+          "code": "VISUAL_ISSUE",
+          "message": "[Frame 3] Hand reaches mouth accurately, suggesting effective IK targeting.",
+          "suggestion": "Constraint: Hand position must accurately reach mouth"
         }
       ],
       "context": {
@@ -152,7 +158,7 @@
           "BREATH: Couples to entire motion cycle",
           "STYLE: Casual/Stressed/Seductive affect ALL timing"
         ],
-        "summary": "Score: 60/100 - The humanoid arms are in a T-pose, indicating the animation may not be working correctly."
+        "summary": "Score: 85/100 - The humanoid arms are angled downward, indicating the animation is functioning correctly. The motion appears smooth and anatomically plausible."
       },
       "ai": {
         "provider": "openai",
@@ -211,7 +217,7 @@
           "BREATH: Couples to gait cycle",
           "WEIGHT: Visible transfer, hip bounce"
         ],
-        "summary": "Score: 65/100 - The humanoid arms are in a T-pose, indicating the animation may not be working correctly."
+        "summary": "Score: 60/100 - The humanoid arms remain in a T-pose across all frames, indicating the animation may not be working correctly."
       },
       "ai": {
         "provider": "openai",
@@ -224,20 +230,20 @@
         {
           "type": "info",
           "code": "VISUAL_ISSUE",
-          "message": "[Frame 1] Humanoid arms are not in T-pose.",
-          "suggestion": "Constraint: 2"
+          "message": "[Frame 1] Humanoid arms are slightly below horizontal.",
+          "suggestion": "Constraint: No limbs stuck in T-pose or unnatural positions"
         },
         {
           "type": "info",
           "code": "VISUAL_ISSUE",
-          "message": "[Frame 2] Humanoid arms are not in T-pose.",
-          "suggestion": "Constraint: 2"
+          "message": "[Frame 2] Humanoid arms maintain a downward angle.",
+          "suggestion": "Constraint: No limbs stuck in T-pose or unnatural positions"
         },
         {
           "type": "info",
           "code": "VISUAL_ISSUE",
-          "message": "[Frame 3] Humanoid arms are not in T-pose.",
-          "suggestion": "Constraint: 2"
+          "message": "[Frame 3] Humanoid arms continue to show a downward angle.",
+          "suggestion": "Constraint: No limbs stuck in T-pose or unnatural positions"
         }
       ],
       "context": {
@@ -268,7 +274,7 @@
           "MICRO: Very slow noise layer (meditative)",
           "TRANSITIONS: Smooth between gesture variants"
         ],
-        "summary": "Score: 75/100 - The humanoid arms are angled slightly downward, indicating the animation is working correctly."
+        "summary": "Score: 75/100 - The humanoid arms are angled slightly downward, indicating the animation is functioning correctly."
       },
       "ai": {
         "provider": "openai",
@@ -308,7 +314,7 @@
           "BREATH: Couples to jump phases",
           "TIMING: Phase envelopes must overlap"
         ],
-        "summary": "Score: 75/100 - The humanoid arms are mostly in a relaxed pose, indicating the animation is working. However, the final frame shows a T-pose, suggesting a potential issue."
+        "summary": "Score: 75/100 - The humanoid arms are mostly in a relaxed pose, but frame 3 shows a T-pose, indicating a potential issue."
       },
       "ai": {
         "provider": "openai",
@@ -319,21 +325,9 @@
       "valid": true,
       "issues": [
         {
-          "type": "info",
+          "type": "warning",
           "code": "VISUAL_ISSUE",
-          "message": "[Frame 1] Humanoid arms are not in T-pose.",
-          "suggestion": "Constraint: 2"
-        },
-        {
-          "type": "info",
-          "code": "VISUAL_ISSUE",
-          "message": "[Frame 2] Humanoid arms are angled downward.",
-          "suggestion": "Constraint: 2"
-        },
-        {
-          "type": "info",
-          "code": "VISUAL_ISSUE",
-          "message": "[Frame 3] Humanoid arms are in a relaxed pose.",
+          "message": "[Frame 1] Humanoid arms appear in T-pose.",
           "suggestion": "Constraint: 2"
         }
       ],
@@ -362,7 +356,7 @@
           "TIMING: Precise phase envelopes",
           "TIMING: Tuck timing critical for rotation speed"
         ],
-        "summary": "Score: 85/100 - The humanoid arms are angled downward in the frames, indicating the animation is working correctly."
+        "summary": "Score: 75/100 - The humanoid arms are angled downward in the final frame, indicating the animation is working correctly."
       },
       "ai": {
         "provider": "openai",
